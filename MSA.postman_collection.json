@@ -1,0 +1,3200 @@
+{
+	"info": {
+		"_postman_id": "3a9b5e72-2cd6-4c8b-84ac-812d6a945d44",
+		"name": "MSA_DAY5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25548197"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "direct",
+					"item": [
+						{
+							"name": "accounts",
+							"item": [
+								{
+									"name": "CreateAccount Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9206/api/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchCustomerDetails Copy",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "eazybank-correlation-id",
+												"value": "43gtrt-trtrrtgf",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:9206/api/fetchCustomerDetails?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"fetchCustomerDetails"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateAccountDetails Copy",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Madan Mohan\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\",\n    \"accountsDto\": {\n        \"accountNumber\": 1491902889,\n        \"accountType\": \"Savings\",\n        \"branchAddress\": \"123 Main Street, New York\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9206/api/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeleteAccountDetails Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9206/api/delete?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "build-info Copy",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9206/api/build-info",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"build-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "java-version Copy",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9206/api/java-version",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"java-version"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "contact-info Copy",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9206/api/contact-info",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"contact-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "RefreshConfig Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9206/actuator/refresh",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"actuator",
+												"refresh"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "BusRefresh Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9206/actuator/busrefresh",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"actuator",
+												"busrefresh"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ShutDown Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9206/actuator/shutdown",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"actuator",
+												"shutdown"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "cards",
+							"item": [
+								{
+									"name": "CreateCard Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9207/api/create?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9207",
+											"path": [
+												"api",
+												"create"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchCardDetails Copy",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9207/api/fetch?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9207",
+											"path": [
+												"api",
+												"fetch"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateCardDetails Copy",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"mobileNumber\": \"4354437687\",\n    \"cardNumber\": \"100107091026\",\n    \"cardType\": \"Debit Card\",\n    \"totalLimit\": 100000,\n    \"amountUsed\": 10000,\n    \"availableAmount\": 90000\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9207/api/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9207",
+											"path": [
+												"api",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeleteCardDetails Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9207/api/delete?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9207",
+											"path": [
+												"api",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "loans",
+							"item": [
+								{
+									"name": "CreateLoan Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9208/api/create?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9208",
+											"path": [
+												"api",
+												"create"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchLoanDetails Copy",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9208/api/fetch?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9208",
+											"path": [
+												"api",
+												"fetch"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateLoanDetails Copy",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"mobileNumber\": \"4354437687\",\n    \"loanNumber\": \"10071469799154\",\n    \"loanType\": \"Vehicle Loan\",\n    \"totalLoan\": -100000,\n    \"amountPaid\": -10000,\n    \"outstandingAmount\": -90000\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9208/api/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9208",
+											"path": [
+												"api",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeleteLoanDetails Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9208/api/delete?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9208",
+											"path": [
+												"api",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "gateway",
+					"item": [
+						{
+							"name": "기본Routes구성",
+							"item": [
+								{
+									"name": "CreateAccount",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9202/ACCOUNTS/api/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"ACCOUNTS",
+												"api",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchCustomerDetails",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "eazybank-correlation-id",
+												"value": "43gtrt-trtrrtgf",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:9202/ACCOUNTS/api/fetchCustomerDetails?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"ACCOUNTS",
+												"api",
+												"fetchCustomerDetails"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "contact-info",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/ACCOUNTS/api/contact-info",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"ACCOUNTS",
+												"api",
+												"contact-info"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "accounts",
+							"item": [
+								{
+									"name": "CreateAccount",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9202/mgbank/accounts/api/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"accounts",
+												"api",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchCustomerDetails_OpenFeign_Cards_Loans",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "eazybank-correlation-id",
+												"value": "43gtrt-trtrrtgf",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/accounts/api/fetchCustomerDetails?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"accounts",
+												"api",
+												"fetchCustomerDetails"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateAccountDetails",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Madan Mohan\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\",\n    \"accountsDto\": {\n        \"accountNumber\": 1246417599,\n        \"accountType\": \"Savings\",\n        \"branchAddress\": \"123 Main Street, New York\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9206/api/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeleteAccountDetails",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9206/api/delete?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9206",
+											"path": [
+												"api",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Account_HostName",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/accounts/api/getHostName",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"accounts",
+												"api",
+												"getHostName"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "contact-info",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/accounts/api/contact-info",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"accounts",
+												"api",
+												"contact-info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "build-info",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/accounts/api/build-info",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"accounts",
+												"api",
+												"build-info"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "cards",
+							"item": [
+								{
+									"name": "CreateCard",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/cards/api/create?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"cards",
+												"api",
+												"create"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchCardDetails",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/cards/api/fetch?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"cards",
+												"api",
+												"fetch"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateCardDetails",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"mobileNumber\": \"4354437687\",\n    \"cardNumber\": \"100107091026\",\n    \"cardType\": \"Debit Card\",\n    \"totalLimit\": 100000,\n    \"amountUsed\": 10000,\n    \"availableAmount\": 90000\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9202/mgbank/cards/api/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"cards",
+												"api",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeleteCardDetails",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9207/api/delete?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9207",
+											"path": [
+												"api",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Cards_HostName",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/cards/api/getHostName",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"cards",
+												"api",
+												"getHostName"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Loans_HostName_OpenFeign_Loans",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/cards/api/getLoanHostName",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"cards",
+												"api",
+												"getLoanHostName"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "loans",
+							"item": [
+								{
+									"name": "CreateLoan",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/loans/api/create?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"loans",
+												"api",
+												"create"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FetchLoanDetails",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/loans/api/fetch?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"loans",
+												"api",
+												"fetch"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdateLoanDetails",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"mobileNumber\": \"4354437687\",\n    \"loanNumber\": \"10071469799154\",\n    \"loanType\": \"Vehicle Loan\",\n    \"totalLoan\": -100000,\n    \"amountPaid\": -10000,\n    \"outstandingAmount\": -90000\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9208/api/update",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9208",
+											"path": [
+												"api",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeleteLoanDetails",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9208/api/delete?mobileNumber=4354437687",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9208",
+											"path": [
+												"api",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "mobileNumber",
+													"value": "4354437687"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "contact-info",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9202/mgbank/loans/api/contact-info",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9202",
+											"path": [
+												"mgbank",
+												"loans",
+												"api",
+												"contact-info"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "KeyCloak",
+					"item": [
+						{
+							"name": "ClientCredentials_AccessToken",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "mgbank-callcenter-cc",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "text"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9101",
+									"path": [
+										"realms",
+										"master",
+										"protocol",
+										"openid-connect",
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "gatewayserver_security",
+					"item": [
+						{
+							"name": "Accounts_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/contact-info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"contact-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cards_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/cards/api/java-version",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"java-version"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Loans_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/loans/api/build-info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"build-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_POST_NoAuth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_POST_ClientCredentials",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-cc",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "clientcredentails_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437688\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CARDS_POST_ClientCredentials",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-cc",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "clientcredentails_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/cards/api/create?mobileNumber=4354437688",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437688"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOANS_POST_ClientCredentials",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-cc",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "clientcredentails_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/loans/api/create?mobileNumber=4354437688",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437688"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_POST_AuthCode",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-ac",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "nZhw44CzO4PNTADFZngadQw2ZWKiPLaL",
+											"type": "string"
+										},
+										{
+											"key": "state",
+											"value": "ew34er-344fgfg-5gfgfg",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/auth",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "accessToken",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJia0J6dXNaMzU0WklNb3hlWjZNcnF3Wnh2ek51QXlZcjJfU29jRFFwMmJRIn0.eyJleHAiOjE2OTIyNzA4MjYsImlhdCI6MTY5MjI3MDc2NiwiYXV0aF90aW1lIjoxNjkyMjcwNjg5LCJqdGkiOiJjYzA2ZDdlZS02MzE1LTQxOTgtYTE2ZS0zMzlmYmRhNjdmODUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJmYTAxMjdhMi04ODdkLTQ0MzctYmNjZS00MDU2ZmVmMWEwNjgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1jYWxsY2VudGVyLWNsaWVudDIiLCJzZXNzaW9uX3N0YXRlIjoiMWE3NmYwMDMtZTJmMC00OTM4LTkzZjMtYTFhZjZiMjM3ZGM5IiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJzaWQiOiIxYTc2ZjAwMy1lMmYwLTQ5MzgtOTNmMy1hMWFmNmIyMzdkYzkiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6Ik1hZGFuIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoibWFkYW4iLCJnaXZlbl9uYW1lIjoiTWFkYW4iLCJmYW1pbHlfbmFtZSI6IlJlZGR5IiwiZW1haWwiOiJ0dXRvckBlYXp5Ynl0ZXMuY29tIn0.ojk3ZdM7vrbh_vs-RftN7l2515DaKq2ixJcab6d1Y5H00-DfzTiOI3PYOrPQOKx05Ksl9J7UdMVE8eEBVQ5jshwPIto2uNOIF0U_OBOQrnZz3cAlUl2BfsCT78WwuevbVFi-E9b3yYqOtlmjXkFMTKOLXmPjNsIWiOShEL0zYKKCa_bpHktFTGCweARDZ4r1QuMB7JfxcP-t-36Nm2q1chBagyatHtN--v02bK4jprwLVOkLoFomBmlRQ8bqxMRwyG85FOG0jan0JUFIcbnnX7ItAxKjPcNXQI6o9HZ1egrJbxo8uTp_M8K1vUcxYXcxgexVzQqAr-H9zgdmI8pcuw",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "authcode_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CARDS_POST_AuthCode",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "nZhw44CzO4PNTADFZngadQw2ZWKiPLaL",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-ac",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/auth",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "authcode_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "accessToken",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJia0J6dXNaMzU0WklNb3hlWjZNcnF3Wnh2ek51QXlZcjJfU29jRFFwMmJRIn0.eyJleHAiOjE2OTIyNzEyMjksImlhdCI6MTY5MjI3MTE2OSwiYXV0aF90aW1lIjoxNjkyMjcwNjg5LCJqdGkiOiIxYjVhN2ExYi02MmE5LTQ5Y2ItOWFjNy1jYTY1NjIxNWQwYzYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJmYTAxMjdhMi04ODdkLTQ0MzctYmNjZS00MDU2ZmVmMWEwNjgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1jYWxsY2VudGVyLWNsaWVudDIiLCJzZXNzaW9uX3N0YXRlIjoiMWE3NmYwMDMtZTJmMC00OTM4LTkzZjMtYTFhZjZiMjM3ZGM5IiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJMT0FOUyIsImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwiQUNDT1VOVFMiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiQ0FSRFMiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwic2lkIjoiMWE3NmYwMDMtZTJmMC00OTM4LTkzZjMtYTFhZjZiMjM3ZGM5IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJNYWRhbiBSZWRkeSIsInByZWZlcnJlZF91c2VybmFtZSI6Im1hZGFuIiwiZ2l2ZW5fbmFtZSI6Ik1hZGFuIiwiZmFtaWx5X25hbWUiOiJSZWRkeSIsImVtYWlsIjoidHV0b3JAZWF6eWJ5dGVzLmNvbSJ9.BSc8H2dgEtZJmIwvO-_r9JOHFXPKGZmZG3sM01nIH3jRlqIAToHGcUdlLcP_30z-zFAUceBhNcc08_Cd6y9Gg0ftdzrQj_nXe4MMuVVmk0l36D-sRrpSEcwjr-4qOw4o8Fxm7lQ7XoDk2i6KAUGhwQgqnnk46LIXvt5PxgJ9bxN3Ex2uzzDcvRc89SD7z5sfgCGpdCk3j-DMd04p_ZB0ftTyEChTQsJC87MKyNGNa4Q_Z0oLGFTVcvppGBXB5QJRUInIx2Y7XR1woUxHSAOO0CNShcGue63V0Z47fX_zvl3aVw9c8L1mQ229d98PwDh2EID9c9wAcewi2OE9YKxnEg",
+											"type": "string"
+										},
+										{
+											"key": "state",
+											"value": "ew34er-344fgfg-5gfgfg",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/cards/api/create?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOANS_POST_AuthCode",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "nZhw44CzO4PNTADFZngadQw2ZWKiPLaL",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-ac",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/auth",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "authcode_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "accessToken",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "state",
+											"value": "ew34er-344fgfg-5gfgfg",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/loans/api/create?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/fetchCustomerDetails?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"fetchCustomerDetails"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "prod",
+			"item": [
+				{
+					"name": "로드밸런싱_테스트",
+					"item": [
+						{
+							"name": "직접호출_cardHostName",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Connection",
+										"value": "close",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.100.221:30317/api/getHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30317",
+									"path": [
+										"api",
+										"getHostName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "직접호출_LoanHostNameByCard_OpenFeign",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30317/api/getLoanHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30317",
+									"path": [
+										"api",
+										"getLoanHostName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "APIGateway_CardHostName_OpenFeign",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/getHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"getHostName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "APIGateway_AccountHostName",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/getHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"getHostName"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "accounts",
+					"item": [
+						{
+							"name": "CreateAccount",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FetchCustomerDetails",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "eazybank-correlation-id",
+										"value": "43gtrt-trtrrtgf",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/fetchCustomerDetails?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"fetchCustomerDetails"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateAccountDetails",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Mohan\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\",\n    \"accountsDto\": {\n        \"accountNumber\": 1152248596,\n        \"accountType\": \"Savings\",\n        \"branchAddress\": \"123 Main Street, New York\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/update",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteAccountDetails",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9206/api/delete?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9206",
+									"path": [
+										"api",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account_HostName",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/getHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"getHostName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "contact-info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/contact-info",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"contact-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "build-info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/accounts/api/build-info",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"build-info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cards",
+					"item": [
+						{
+							"name": "CreateCard",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/create?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FetchCardDetails",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/fetch?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"fetch"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateCardDetails",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"mobileNumber\": \"4354437687\",\n    \"cardNumber\": \"100107091026\",\n    \"cardType\": \"Debit Card\",\n    \"totalLimit\": 100000,\n    \"amountUsed\": 10000,\n    \"availableAmount\": 90000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/update",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteCardDetails",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/delete?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cards_HostName",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/getHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"getHostName"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Loans_HostName",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/cards/api/getLoanHostName",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"getLoanHostName"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "loans",
+					"item": [
+						{
+							"name": "CreateLoan",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/loans/api/create?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FetchLoanDetails",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/loans/api/fetch?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"fetch"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateLoanDetails",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"mobileNumber\": \"4354437687\",\n    \"loanNumber\": \"10071469799154\",\n    \"loanType\": \"Vehicle Loan\",\n    \"totalLoan\": -100000,\n    \"amountPaid\": -10000,\n    \"outstandingAmount\": -90000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/loans/api/update",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteLoanDetails",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/loans/api/delete?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "contact-info Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30312/mgbank/loans/api/contact-info",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30312",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"contact-info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "configserver",
+					"item": [
+						{
+							"name": "RefreshConfig",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.100.221:30310/actuator/refresh",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30310",
+									"path": [
+										"actuator",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BusRefresh",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.100.221:30310/actuator/busrefresh",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"100",
+										"221"
+									],
+									"port": "30310",
+									"path": [
+										"actuator",
+										"busrefresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "gatewayserver_security",
+					"item": [
+						{
+							"name": "Accounts_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/contact-info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"contact-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cards_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/cards/api/java-version",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"java-version"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Loans_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/loans/api/build-info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"build-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_POST_NoAuth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_POST_ClientCredentials",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-cc",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "clientcredentails_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437688\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CARDS_POST_ClientCredentials",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-cc",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "clientcredentails_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/cards/api/create?mobileNumber=4354437688",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437688"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOANS_POST_ClientCredentials",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "UyuGt3bGLQIIDx5MboPsDoeTqCsmysVb",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-cc",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "clientcredentails_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/loans/api/create?mobileNumber=4354437688",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437688"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_POST_AuthCode",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-ac",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "nZhw44CzO4PNTADFZngadQw2ZWKiPLaL",
+											"type": "string"
+										},
+										{
+											"key": "state",
+											"value": "ew34er-344fgfg-5gfgfg",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/auth",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "accessToken",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJia0J6dXNaMzU0WklNb3hlWjZNcnF3Wnh2ek51QXlZcjJfU29jRFFwMmJRIn0.eyJleHAiOjE2OTIyNzA4MjYsImlhdCI6MTY5MjI3MDc2NiwiYXV0aF90aW1lIjoxNjkyMjcwNjg5LCJqdGkiOiJjYzA2ZDdlZS02MzE1LTQxOTgtYTE2ZS0zMzlmYmRhNjdmODUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJmYTAxMjdhMi04ODdkLTQ0MzctYmNjZS00MDU2ZmVmMWEwNjgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1jYWxsY2VudGVyLWNsaWVudDIiLCJzZXNzaW9uX3N0YXRlIjoiMWE3NmYwMDMtZTJmMC00OTM4LTkzZjMtYTFhZjZiMjM3ZGM5IiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJzaWQiOiIxYTc2ZjAwMy1lMmYwLTQ5MzgtOTNmMy1hMWFmNmIyMzdkYzkiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6Ik1hZGFuIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoibWFkYW4iLCJnaXZlbl9uYW1lIjoiTWFkYW4iLCJmYW1pbHlfbmFtZSI6IlJlZGR5IiwiZW1haWwiOiJ0dXRvckBlYXp5Ynl0ZXMuY29tIn0.ojk3ZdM7vrbh_vs-RftN7l2515DaKq2ixJcab6d1Y5H00-DfzTiOI3PYOrPQOKx05Ksl9J7UdMVE8eEBVQ5jshwPIto2uNOIF0U_OBOQrnZz3cAlUl2BfsCT78WwuevbVFi-E9b3yYqOtlmjXkFMTKOLXmPjNsIWiOShEL0zYKKCa_bpHktFTGCweARDZ4r1QuMB7JfxcP-t-36Nm2q1chBagyatHtN--v02bK4jprwLVOkLoFomBmlRQ8bqxMRwyG85FOG0jan0JUFIcbnnX7ItAxKjPcNXQI6o9HZ1egrJbxo8uTp_M8K1vUcxYXcxgexVzQqAr-H9zgdmI8pcuw",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "authcode_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CARDS_POST_AuthCode",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "nZhw44CzO4PNTADFZngadQw2ZWKiPLaL",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-ac",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/auth",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "authcode_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "accessToken",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJia0J6dXNaMzU0WklNb3hlWjZNcnF3Wnh2ek51QXlZcjJfU29jRFFwMmJRIn0.eyJleHAiOjE2OTIyNzEyMjksImlhdCI6MTY5MjI3MTE2OSwiYXV0aF90aW1lIjoxNjkyMjcwNjg5LCJqdGkiOiIxYjVhN2ExYi02MmE5LTQ5Y2ItOWFjNy1jYTY1NjIxNWQwYzYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJmYTAxMjdhMi04ODdkLTQ0MzctYmNjZS00MDU2ZmVmMWEwNjgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1jYWxsY2VudGVyLWNsaWVudDIiLCJzZXNzaW9uX3N0YXRlIjoiMWE3NmYwMDMtZTJmMC00OTM4LTkzZjMtYTFhZjZiMjM3ZGM5IiwiYWNyIjoiMCIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJMT0FOUyIsImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwiQUNDT1VOVFMiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiQ0FSRFMiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwic2lkIjoiMWE3NmYwMDMtZTJmMC00OTM4LTkzZjMtYTFhZjZiMjM3ZGM5IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJNYWRhbiBSZWRkeSIsInByZWZlcnJlZF91c2VybmFtZSI6Im1hZGFuIiwiZ2l2ZW5fbmFtZSI6Ik1hZGFuIiwiZmFtaWx5X25hbWUiOiJSZWRkeSIsImVtYWlsIjoidHV0b3JAZWF6eWJ5dGVzLmNvbSJ9.BSc8H2dgEtZJmIwvO-_r9JOHFXPKGZmZG3sM01nIH3jRlqIAToHGcUdlLcP_30z-zFAUceBhNcc08_Cd6y9Gg0ftdzrQj_nXe4MMuVVmk0l36D-sRrpSEcwjr-4qOw4o8Fxm7lQ7XoDk2i6KAUGhwQgqnnk46LIXvt5PxgJ9bxN3Ex2uzzDcvRc89SD7z5sfgCGpdCk3j-DMd04p_ZB0ftTyEChTQsJC87MKyNGNa4Q_Z0oLGFTVcvppGBXB5QJRUInIx2Y7XR1woUxHSAOO0CNShcGue63V0Z47fX_zvl3aVw9c8L1mQ229d98PwDh2EID9c9wAcewi2OE9YKxnEg",
+											"type": "string"
+										},
+										{
+											"key": "state",
+											"value": "ew34er-344fgfg-5gfgfg",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9202/mgbank/cards/api/create?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"cards",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOANS_POST_AuthCode",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "clientSecret",
+											"value": "nZhw44CzO4PNTADFZngadQw2ZWKiPLaL",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "mgbank-callcenter-ac",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/token",
+											"type": "string"
+										},
+										{
+											"key": "authUrl",
+											"value": "http://localhost:9101/realms/master/protocol/openid-connect/auth",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "authcode_accesstoken",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "openid email profile",
+											"type": "string"
+										},
+										{
+											"key": "tokenType",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "accessToken",
+											"value": "",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "client_authentication",
+											"value": "body",
+											"type": "string"
+										},
+										{
+											"key": "state",
+											"value": "ew34er-344fgfg-5gfgfg",
+											"type": "string"
+										},
+										{
+											"key": "useBrowser",
+											"value": true,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/loans/api/create?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"loans",
+										"api",
+										"create"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accounts_GET_PermitAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9202/mgbank/accounts/api/fetchCustomerDetails?mobileNumber=4354437687",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9202",
+									"path": [
+										"mgbank",
+										"accounts",
+										"api",
+										"fetchCustomerDetails"
+									],
+									"query": [
+										{
+											"key": "mobileNumber",
+											"value": "4354437687"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

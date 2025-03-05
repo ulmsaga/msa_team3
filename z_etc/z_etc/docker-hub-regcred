@@ -1,0 +1,64 @@
+kubectl create secret docker-registry regcred-team3 \
+  --docker-server=https://index.docker.io/v1/ \
+  --docker-username=sclee1115 \
+  --docker-password=saseopaseo00 \
+  --docker-email=sclee1115@gmail.com
+
+
+  imagePullSecrets:
+        - name: regcred-team3
+
+  docker tag docker.io/bitnami/kafka:latest k8s-vga-worker1:5000/kafka:latest
+  docker push k8s-vga-worker1:5000/kafka:latest
+
+
+  docker tag wurstmeister/kafka:latest k8s-vga-worker1:5000/kafka:latest
+   docker push k8s-vga-worker1:5000/kafka:latest
+
+
+
+
+   [eva@k8s-vga-master z_kafka]$ k3 exec -it ^C
+[eva@k8s-vga-master z_kafka]$ k3 exec -it kafka-75cbf79fdf-gklgd -- bash
+root@kafka-75cbf79fdf-gklgd:/# nc -zv kafka:9092
+nc: missing port number
+root@kafka-75cbf79fdf-gklgd:/# nc -zv localhost:9092
+nc: missing port number
+root@kafka-75cbf79fdf-gklgd:/# nc
+usage: nc [-46CDdFhklNnrStUuvZz] [-I length] [-i interval] [-M ttl]
+	  [-m minttl] [-O length] [-P proxy_username] [-p source_port]
+	  [-q seconds] [-s sourceaddr] [-T keyword] [-V rtable] [-W recvlimit]
+	  [-w timeout] [-X proxy_protocol] [-x proxy_address[:port]]
+	  [destination] [port]
+root@kafka-75cbf79fdf-gklgd:/# nc -zv
+usage: nc [-46CDdFhklNnrStUuvZz] [-I length] [-i interval] [-M ttl]
+	  [-m minttl] [-O length] [-P proxy_username] [-p source_port]
+	  [-q seconds] [-s sourceaddr] [-T keyword] [-V rtable] [-W recvlimit]
+	  [-w timeout] [-X proxy_protocol] [-x proxy_address[:port]]
+	  [destination] [port]
+root@kafka-75cbf79fdf-gklgd:/# nc -zv kafka 9092
+Connection to kafka (10.111.170.24) 9092 port [tcp/*] succeeded!
+root@kafka-75cbf79fdf-gklgd:/# nc -zv kafka.group1-team3 9092
+Connection to kafka.group1-team3 (10.111.170.24) 9092 port [tcp/*] succeeded!
+root@kafka-75cbf79fdf-gklgd:/#
+
+
+[서버 prod] kubectr get svc -n group1-team3 
+rabbitmq                          NodePort    10.109.16.188    <none>        5672:30313/TCP,15672:30314/TCP   75m
+
+[local] docker ps
+c1771f1320f9   rabbitmq:management        "docker-entrypoint.s…"   26 hours ago   Up About an hour   4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp   rabbitmq
+
+
+
+-----
+zookeeper, kafka Local에...
+
+1. 기존 중지
+docker stop zookeeper kafka
+
+2. 컨테이너 제거
+docker rm zookeeper kafka
+
+3. 기동
+docker-compose -f zz_zoo_kafka_local.yaml up -d

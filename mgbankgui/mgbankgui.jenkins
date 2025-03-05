@@ -1,0 +1,93 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO = 'https://github.com/ulmsaga/msa_day5.git'
+        GIT_BRANCH = 'main'
+        GIT_CREDENTIAL_ID = 'sclee1115'
+        DOCKER_REGISTRY = 'k8s-vga-worker1:5000'
+        NAMESPACE = 'group1-team3'
+        IMAGE_NAME = 'group1-team3-lsc-mgbankgui'
+        APP = 'team3-lsc-mgbankgui'
+        VERSION = '0.0.1'
+        NODE_HOME = '/var/lib/jenkins/node-v14.21.3-linux-x64'
+        // NODE_HOME = '/home/eva/.nvm/versions/node/v14.21.3'
+        NODE_BIN = "${NODE_HOME}/bin"
+        // PATH = "${NODE_BIN}:${env.PATH}"
+        PATH = "${NODE_BIN}:${PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
+            }
+        }
+        
+        stage('CheckPath') {
+            steps {
+                dir('mgbankgui') {
+                    sh 'echo "Using npm from: $NODE_HOME"'
+                    sh 'npm -v'
+                }
+            }
+        }
+
+        stage('Build React App') {
+            steps {
+                dir('mgbankgui') {
+                    // sh """
+                        // export PATH=${NODE_BIN}:$PATH
+                        // echo "Path is: \$PATH"
+                        // echo "Using Node.js at: ${NODE_BIN}"
+                        // node --version
+                        // npm --version
+                        // NODE_PATH=${NODE_HOME}/lib/node_modules npm install
+                        // NODE_PATH=${NODE_HOME}/lib/node_modules npm run build
+                    // """
+
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('mgbankgui') {
+                    sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} ."
+                }
+            }
+        }
+       
+        stage('Push Docker Image') {
+            steps {
+                sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION}"
+            }
+        }
+        
+
+        stage('Deploy and Service to Kubernetes') {
+            steps {
+                dir('mgbankgui') {
+                    sh """
+                        sed 's/:$VERSION/:v${VERSION}/g' ./mgbankgui.template.yaml > ./mgbankgui.yaml
+                        kubectl apply -f ./mgbankgui.yaml -n ${NAMESPACE}
+                    """
+                    // sh "kubectl apply -f ./mgbankgui.yaml -n ${NAMESPACE}"
+                }
+            }
+        }
+
+        stage('Deployment Image Update') {
+            steps {
+                sh "kubectl set image deployment/${APP}-deployment ${APP}-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} --namespace=${NAMESPACE}"
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO = 'https://github.com/ulmsaga/msa_day4_step01.git'
+        GIT_BRANCH = 'main'
+        GIT_CREDENTIAL_ID = 'sclee1115'
+        DOCKER_REGISTRY = 'k8s-vga-worker1:5000'
+        NAMESPACE = 'group1-team3'
+        IMAGE_NAME = 'group1-team3-lsc-mgbankgui'
+        APP = 'mgbankgui'
+        VERSION = 'v0.0.1'
+        NODE_HOME = '/home/eva/.nvm/versions/node/v14.21.3' // Node.js와 npm이 설치된 경로
+        PATH = "${NODE_HOME}/bin:${env.PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
+            }
+        }
+        
+        stage('Build React App') {
+            steps {
+                dir('mgbankgui') {
+                    // sh 'npm install'
+                    // sh 'npm run build'
+
+                    sh '''
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+                        [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+                        nvm use 14.21.3
+                        npm install
+                        npm run build
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('mgbankgui') {
+                    sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} ."
+                }
+            }
+        }
+       
+        stage('Push Docker Image') {
+            steps {
+                sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION}"
+            }
+        }
+        
+
+        stage('Deploy and Service to Kubernetes') {
+            steps {
+                dir('mgbankgui') {
+                    sh """
+                        sed 's/:$VERSION/:v${VERSION}/g' ./mgbankgui.template.yaml > ./mgbankgui.yaml
+                        kubectl apply -f ./mgbankgui.yaml -n ${NAMESPACE}
+                    """
+                    // sh "kubectl apply -f ./mgbankgui.yaml -n ${NAMESPACE}"
+                }
+            }
+        }
+
+        stage('Deployment Image Update') {
+            steps {
+                sh "kubectl set image deployment/${APP}-deployment ${APP}-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} --namespace=${NAMESPACE}"
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

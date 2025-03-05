@@ -1,0 +1,24 @@
+version: '3'
+services:
+  zookeeper:
+    image: bitnami/zookeeper:latest  # ✅ ARM64 지원 이미지
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes  # 💡 간단한 테스트를 위해 인증 비활성화
+
+  kafka:
+    image: bitnami/kafka:latest  # ✅ ARM64 지원 이미지
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes  # 💡 테스트용으로 인증 비활성화
+    depends_on:
+      - zookeeper
+

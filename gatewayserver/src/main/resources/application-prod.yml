@@ -1,0 +1,18 @@
+spring:
+  config:
+    import: "optional:configserver:http://team3-lsc-configserver-service:80/"
+  rabbitmq:
+    host: rabbitmq.group1-team3
+    port: 5672
+    username: guest
+    password: guest
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://keycloak-service:8080/realms/team3/protocol/openid-connect/certs"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://team3-lsc-eurekaserver-service:80/eureka/

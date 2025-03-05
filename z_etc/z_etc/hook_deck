@@ -1,0 +1,16 @@
+https://console.hookdeck.com/
+
+brew install hookdeck/hookdeck/hookdeck
+
+hookdeck logout
+
+hookdeck login --cli-key 4w5gwx3kl0t0ua2ctbf5al0vdbpxp95xzvlcwjvesrox4y3set
+
+hookdeck listen 9200 source --cli-path /monitor
+
+If the login command is executed multiple times, it may result into 401 error.
+To resolve this, run the "hookdeck logout" command, followed by login command
+
+If it is not asking for the forwarded path, pls run the below command, 
+"hookdeck listen 9200 source --cli-path /monitor"
+When you are running the above command, you don't have to provide the hostname (localhost) specifically

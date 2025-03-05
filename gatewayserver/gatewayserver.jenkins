@@ -1,0 +1,97 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO = 'https://github.com/ulmsaga/msa_day5.git'
+        GIT_BRANCH = 'main'
+        GIT_CREDENTIAL_ID = 'sclee1115'
+        DOCKER_REGISTRY = 'k8s-vga-worker1:5000'
+        NAMESPACE = 'group1-team3'
+        IMAGE_NAME = 'group1-team3-lsc-gatewayserver'
+        APP = 'team3-lsc-gatewayserver'
+        JAVA_HOME = "/usr/local/java21"
+        PATH = "${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${GIT_BRANCH}", url: "${GIT_REPO}"
+            }
+        }
+        
+        stage('Check Java Version') {
+            steps {
+                dir('gatewayserver') {
+                    sh 'echo "Using Java from: $JAVA_HOME"'
+                    sh 'java -version'
+                }
+            }
+        }
+  
+        stage('Build with Maven') {
+            steps {
+                dir('gatewayserver') {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+
+        stage('Set Version from POM') {
+            steps {
+                dir('gatewayserver') {
+                    script {
+                        env.VERSION = sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+                        echo "Set version from POM: ${VERSION}"
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('gatewayserver') {
+                    sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} ."
+                }
+            }
+        }
+       
+        stage('Push Docker Image') {
+            // steps {
+                // script {
+                    // docker.withRegistry("http://${DOCKER_REGISTRY}") {
+                        // docker.image("${DOCKER_REGISTRY}/${NAMESPACE}-${APP}:v${VERSION}").push()
+                    // }
+                // }
+            // }
+
+            steps {
+                sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION}"
+            }
+        }
+        
+
+        stage('Deploy and Service to Kubernetes') {
+            steps {
+                dir('gatewayserver') {
+                    sh """
+                        sed 's/:$VERSION/:v${VERSION}/g' ./gatewayserver.template.yaml > ./gatewayserver.yaml
+                        kubectl apply -f ./gatewayserver.yaml -n ${NAMESPACE}
+                    """
+                    // sh "kubectl apply -f ./gatewayserver.yaml -n ${NAMESPACE}"
+                }
+            }
+        }
+
+        stage('Deployment Image Update') {
+            steps {
+                sh "kubectl set image deployment/${APP}-deployment ${APP}-container=${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} --namespace=${NAMESPACE}"
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

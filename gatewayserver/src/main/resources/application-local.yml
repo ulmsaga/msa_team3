@@ -1,0 +1,18 @@
+spring:
+  config:
+    import: "optional:configserver:http://localhost:9200/"
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:9101/realms/master/protocol/openid-connect/certs"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9201/eureka/

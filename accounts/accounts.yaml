@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team3-lsc-accounts-deployment
+  namespace: group1-team3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: team3-lsc-accounts-app
+  template:
+    metadata:
+      labels:
+        app: team3-lsc-accounts-app
+    spec:
+      containers:
+      - name: team3-lsc-accounts-container
+        image: k8s-vga-worker1:5000/group1-team3-lsc-accounts:v0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9206
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: team3-lsc-accounts-service
+  namespace: group1-team3
+spec:
+  selector:
+    app: team3-lsc-accounts-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9206
+      nodePort: 30316
+  type: NodePort

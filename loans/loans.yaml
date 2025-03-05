@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team3-lsc-loans-deployment
+  namespace: group1-team3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: team3-lsc-loans-app
+  template:
+    metadata:
+      labels:
+        app: team3-lsc-loans-app
+    spec:
+      containers:
+      - name: team3-lsc-loans-container
+        image: k8s-vga-worker1:5000/group1-team3-lsc-loans:v0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9208
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: team3-lsc-loans-service
+  namespace: group1-team3
+spec:
+  selector:
+    app: team3-lsc-loans-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9208
+      nodePort: 30318
+  type: NodePort
