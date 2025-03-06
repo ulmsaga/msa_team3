@@ -4,7 +4,6 @@ Fallbak Message GUI
 http://192.168.100.221:30319/
 
 
-![Uploading 스크린샷 2025-03-06 오후 5.28.21.png…]()
 
 [![image](https://github.com/user-attachments/assets/bce96254-c974-4910-b39b-a88e03d9a8a6)](http://192.168.100.221:30319/)
 
