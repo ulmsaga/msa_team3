@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/ulmsaga/msa_day5.git'
+        GIT_REPO = 'https://github.com/ulmsaga/msa_team3.git'
         GIT_BRANCH = 'main'
         GIT_CREDENTIAL_ID = 'sclee1115'
         DOCKER_REGISTRY = 'k8s-vga-worker1:5000'

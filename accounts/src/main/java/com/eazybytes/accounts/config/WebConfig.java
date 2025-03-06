@@ -13,7 +13,7 @@ public class WebConfig {
           @Override
           public void addCorsMappings(CorsRegistry registry) {
               registry.addMapping("/subscribe")
-                      .allowedOrigins("http://localhost:9300") // 프론트엔드 도메인
+                      .allowedOrigins("http://localhost:9219") // 프론트엔드 도메인
                       .allowedMethods("GET")
                       .allowedHeaders("*")
                       .allowCredentials(true);

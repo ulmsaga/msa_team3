@@ -23,8 +23,16 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
+    function:
+      definition: updateCommunication
     stream:
       default-binder: rabbit
+      bindings:
+        updateCommunication-in-0:
+          destination: communication-sent
+          group: ${spring.application.name}
+        sendCommunuication-out-0:
+          destination: send-communication
   # RabbitMQ Configuration - Local, Prod
   # Kafka Configuration
   kafka:

@@ -1,7 +1,18 @@
 package com.eazybytes.accounts.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.stereotype.Service;
+
 import com.eazybytes.accounts.constants.AccountsConstants;
 import com.eazybytes.accounts.dto.AccountsDto;
+import com.eazybytes.accounts.dto.AccountsMsgDto;
 import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.entity.Accounts;
 import com.eazybytes.accounts.entity.Customer;
@@ -11,13 +22,10 @@ import com.eazybytes.accounts.mapper.AccountsMapper;
 import com.eazybytes.accounts.mapper.CustomerMapper;
 import com.eazybytes.accounts.repository.AccountsRepository;
 import com.eazybytes.accounts.repository.CustomerRepository;
+import com.eazybytes.accounts.service.EventEmitter;
 import com.eazybytes.accounts.service.IAccountsService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +34,10 @@ public class AccountsServiceImpl  implements IAccountsService {
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
 
+    private final StreamBridge streamBridge;
+    private final EventEmitter eventEmitter;
+
+    private final Logger logger = LoggerFactory.getLogger(AccountsServiceImpl.class);
     /**
      * @param customerDto - CustomerDto Object
      */
@@ -38,7 +50,16 @@ public class AccountsServiceImpl  implements IAccountsService {
                     +customerDto.getMobileNumber());
         }
         Customer savedCustomer = customerRepository.save(customer);
-        accountsRepository.save(createNewAccount(savedCustomer));
+        // accountsRepository.save(createNewAccount(savedCustomer));
+        Accounts savedAccount = accountsRepository.save(createNewAccount(savedCustomer));
+        sendCommunication(savedAccount, savedCustomer);
+    }
+
+    private void sendCommunication(Accounts account, Customer customer) {
+        var accountsMsgDto = new AccountsMsgDto(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
+        logger.info("Sending Communication request for the details: {}", accountsMsgDto);
+        var result = streamBridge.send("sendCommunuication-out-0", accountsMsgDto);
+        logger.info("Is the Communication request successfully triggered? {}", result);
     }
 
     /**
@@ -113,5 +134,37 @@ public class AccountsServiceImpl  implements IAccountsService {
         return true;
     }
 
+    @Override
+    public boolean updateCommunicationStatus(Long accountNumber) {
+        boolean isUpdated = false;
+        if (accountNumber != null) {
+            Accounts accounts = accountsRepository.findById(accountNumber).orElseThrow(
+                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString())
+            );
+            accounts.setCommunicationSw(true);
+            accountsRepository.save(accounts);
+            isUpdated = true;
 
+            // SSE send
+            sendCommunicationFinish(accounts);
+        }
+        return isUpdated;
+    }
+
+    private void sendCommunicationFinish(Accounts accounts) {
+        // var accountsMsgDto = new AccountsMsgDto(account.getAccountNumber());
+        // logger.info("Sending Communication request for the details: {}", accountsMsgDto);
+
+        AccountsDto accountsDto = AccountsMapper.mapToAccountsDto(accounts, new AccountsDto());
+        Long customerId = accounts.getCustomerId();
+        Customer customer = customerRepository.findById(customerId).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "CustomerID", customerId.toString())
+        );
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        customerDto.setAccountsDto(accountsDto);
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        customerDtos.add(customerDto);
+
+        eventEmitter.sendData(customerDtos, AccountsConstants.COMMUNICATION_QUE_STRING);
+    }
 }

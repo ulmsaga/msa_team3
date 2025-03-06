@@ -7,8 +7,8 @@ pipeline {
         GIT_CREDENTIAL_ID = 'sclee1115'
         DOCKER_REGISTRY = 'k8s-vga-worker1:5000'
         NAMESPACE = 'group1-team3'
-        IMAGE_NAME = 'group1-team3-lsc-accounts'
-        APP = 'team3-lsc-accounts'
+        IMAGE_NAME = 'group1-team3-lsc-message'
+        APP = 'team3-lsc-message'
         JAVA_HOME = "/usr/local/java21"
         PATH = "${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}"
     }
@@ -22,7 +22,7 @@ pipeline {
         
         stage('Check Java Version') {
             steps {
-                dir('accounts') {
+                dir('message') {
                     sh 'echo "Using Java from: $JAVA_HOME"'
                     sh 'java -version'
                 }
@@ -31,7 +31,7 @@ pipeline {
   
         stage('Build with Maven') {
             steps {
-                dir('accounts') {
+                dir('message') {
                     sh 'mvn clean package -DskipTests'
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
 
         stage('Set Version from POM') {
             steps {
-                dir('accounts') {
+                dir('message') {
                     script {
                         env.VERSION = sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
                         echo "Set version from POM: ${VERSION}"
@@ -50,7 +50,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                dir('accounts') {
+                dir('message') {
                     sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:v${VERSION} ."
                 }
             }
@@ -65,12 +65,12 @@ pipeline {
 
         stage('Deploy and Service to Kubernetes') {
             steps {
-                dir('accounts') {
+                dir('message') {
                     sh """
-                        sed 's/:$VERSION/:v${VERSION}/g' ./accounts.template.yaml > ./accounts.yaml
-                        kubectl apply -f ./accounts.yaml -n ${NAMESPACE}
+                        sed 's/:$VERSION/:v${VERSION}/g' ./message.template.yaml > ./message.yaml
+                        kubectl apply -f ./message.yaml -n ${NAMESPACE}
                     """
-                    // sh "kubectl apply -f ./accounts.yaml -n ${NAMESPACE}"
+                    // sh "kubectl apply -f ./message.yaml -n ${NAMESPACE}"
                 }
             }
         }

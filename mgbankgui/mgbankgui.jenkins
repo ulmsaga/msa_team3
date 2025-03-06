@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        GIT_REPO = 'https://github.com/ulmsaga/msa_day5.git'
+        GIT_REPO = 'https://github.com/ulmsaga/msa_team3.git'
         GIT_BRANCH = 'main'
         GIT_CREDENTIAL_ID = 'sclee1115'
         DOCKER_REGISTRY = 'k8s-vga-worker1:5000'
         NAMESPACE = 'group1-team3'
         IMAGE_NAME = 'group1-team3-lsc-mgbankgui'
         APP = 'team3-lsc-mgbankgui'
-        VERSION = '0.0.1'
+        VERSION = '0.0.2'
         NODE_HOME = '/var/lib/jenkins/node-v14.21.3-linux-x64'
         // NODE_HOME = '/home/eva/.nvm/versions/node/v14.21.3'
         NODE_BIN = "${NODE_HOME}/bin"

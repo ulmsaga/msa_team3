@@ -1,36 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: team3-lsc-mgbankgui-deployment
+  name: team3-lsc-message-deployment
   namespace: group1-team3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: team3-lsc-mgbankgui-app
+      app: team3-lsc-message-app
   template:
     metadata:
       labels:
-        app: team3-lsc-mgbankgui-app
+        app: team3-lsc-message-app
     spec:
       containers:
-      - name: team3-lsc-mgbankgui-container
-        image: k8s-vga-worker1:5000/group1-team3-lsc-mgbankgui:v0.0.1
+      - name: team3-lsc-message-container
+        image: k8s-vga-worker1:5000/group1-team3-lsc-message:$VERSION
         imagePullPolicy: Always
         ports:
-        - containerPort: 9219
+        - containerPort: 9203
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: team3-lsc-mgbankgui-service
+  name: team3-lsc-message-service
   namespace: group1-team3
 spec:
   selector:
-    app: team3-lsc-mgbankgui-app
+    app: team3-lsc-message-app
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 9219
-      nodePort: 30319
+      targetPort: 9203
+      nodePort: 30313
   type: NodePort
