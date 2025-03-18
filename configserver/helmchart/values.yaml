@@ -1,0 +1,15 @@
+image:
+  repository: localhost:5001/group1-team3-lsc-configserver
+  tag: "v0.1.1"
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30310
+
+replicaCount: 1
+
+app:
+  name: team3-lsc-configserver-app
+  containerPort: 9200
