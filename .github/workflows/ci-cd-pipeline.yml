@@ -33,7 +33,7 @@ jobs:
           context: ./configserver  # Dockerfile이 있는 경로를 지정합니다
           file: ./configserver/Dockerfile  # Dockerfile의 경로를 지정합니다
           push: true
-          tags: localhost:5001/group1-team3-lsc-configserver:latest
+          tags: 127.0.0.1:5001/group1-team3-lsc-configserver:latest
 
       - name: Deploy to Kubernetes using Helm and ArgoCD
         env:
