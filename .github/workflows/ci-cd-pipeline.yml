@@ -19,6 +19,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
+          context: ./configserver  # Dockerfile이 있는 경로를 지정합니다
+          file: ./configserver/Dockerfile  # Dockerfile의 경로를 지정합니다
           push: true
           tags: localhost:5001/group1-team3-lsc-configserver:latest
 
@@ -26,5 +28,5 @@ jobs:
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: |
-          helm upgrade --install configserver ./helmchart --namespace group1-team3
+          helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3
           argocd app sync configserver
