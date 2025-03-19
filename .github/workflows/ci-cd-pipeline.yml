@@ -53,8 +53,8 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
 
       - name: Deploy to Kubernetes using Helm and ArgoCD
-        env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        # env:
+          # KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: |
           helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3
           argocd app sync configserver
