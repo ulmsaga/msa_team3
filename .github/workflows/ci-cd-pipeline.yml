@@ -32,3 +32,7 @@ jobs:
           export KUBECONFIG=$HOME/.kube/config
           kubectl config view
 
+      - name: Test Kubernetes Connection
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
