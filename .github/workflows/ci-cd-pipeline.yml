@@ -53,9 +53,8 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
 
       - name: Check kubectl config
-        env:
-          KUBECONFIG: $HOME/.kube/config # KUBECONFIG 환경 변수 설정
         run: |
+          export KUBECONFIG=$HOME/.kube/config # run 섹션에서 KUBECONFIG 명시적 설정
           kubectl config view
           kubectl get pods -A
 
