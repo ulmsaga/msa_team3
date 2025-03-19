@@ -46,15 +46,10 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Configure kubectl 
+      - name: Debug Kubeconfig
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-          export KUBECONFIG=$HOME/.kube/config
+          echo "Checking Kubeconfig..."
+          ls -lah $HOME/.kube/
+          cat $HOME/.kube/config
           kubectl config view
 
-      - name: Deploy to Kubernetes using Helm and ArgoCD
-        run: |
-          helm template configserver ./configserver/helmchart --namespace group1-team3 --debug
-          helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3 --debug
-          argocd app sync configserver
