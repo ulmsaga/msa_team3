@@ -52,17 +52,13 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
           export KUBECONFIG=$HOME/.kube/config
           kubectl config view
-          kubectl cluster-info # 클러스터 정보 확인 추가
 
       - name: Deploy to Kubernetes using Helm and ArgoCD
-        env:
-          KUBECONFIG: $HOME/.kube/config # env 섹션에서 KUBECONFIG 설정
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
           export KUBECONFIG=$HOME/.kube/config
           kubectl config view
-          kubectl cluster-info # 클러스터 정보 확인 추가
           helm template configserver ./configserver/helmchart --namespace group1-team3 --debug
           helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3 --debug
           argocd app sync configserver
