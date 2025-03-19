@@ -56,6 +56,9 @@ jobs:
           export KUBECONFIG=$HOME/.kube/config && \
           kubectl config view && \
           kubectl get pods -A
+        shell: /usr/bin/bash -e {0}
+        env:
+          JAVA_HOME: /opt/hostedtoolcache/Java_Adopt_jdk/21.0.6-7.0.LTS/x64
 
       - name: Deploy to Kubernetes using Helm and ArgoCD
         env:
