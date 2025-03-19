@@ -52,10 +52,16 @@ jobs:
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
 
+      - name: Check kubectl config
+        run: |
+          kubectl config view
+          kubectl get pods -A
+
       - name: Deploy to Kubernetes using Helm and ArgoCD
         env:
           # KUBECONFIG: ${{ secrets.KUBECONFIG }}
           KUBECONFIG: $HOME/.kube/config # 수정된 부분: 디코딩된 kubeconfig 파일 경로를 설정합니다.
         run: |
+          helm template configserver ./configserver/helmchart --namespace group1-team3 --debug
           helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3 --debug
           argocd app sync configserver
