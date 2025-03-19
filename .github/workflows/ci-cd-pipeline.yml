@@ -24,10 +24,11 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Debug Kubeconfig
+      - name: Configure kubectl
         run: |
-          echo "Checking Kubeconfig..."
-          ls -lah $HOME/.kube/
-          cat $HOME/.kube/config
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+          export KUBECONFIG=$HOME/.kube/config
           kubectl config view
 
