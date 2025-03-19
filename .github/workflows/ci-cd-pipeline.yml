@@ -51,6 +51,10 @@ jobs:
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
 
+      - name: Debug kubectl config
+        run: |
+          cat $HOME/.kube/config
+
       - name: Check kubectl config
         run: |
           export KUBECONFIG=$HOME/.kube/config && \
