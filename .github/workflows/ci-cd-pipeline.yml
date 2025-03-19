@@ -32,6 +32,10 @@ jobs:
           export KUBECONFIG=$HOME/.kube/config
           kubectl config view
 
+      - name: Debug Kubeconfig
+        run: |
+          kubectl config view --minify --flatten
+
       - name: Test Kubernetes Connection
         run: |
           kubectl cluster-info
