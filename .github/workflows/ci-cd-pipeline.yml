@@ -53,8 +53,6 @@ jobs:
 
       - name: Check kubectl config
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
           export KUBECONFIG=$HOME/.kube/config && \
           kubectl config view && \
           kubectl get pods -A
