@@ -54,7 +54,8 @@ jobs:
 
       - name: Deploy to Kubernetes using Helm and ArgoCD
         env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          # KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          KUBECONFIG: $HOME/.kube/config # 수정된 부분: 디코딩된 kubeconfig 파일 경로를 설정합니다.
         run: |
-          helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3
+          helm upgrade --install configserver ./configserver/helmchart --namespace group1-team3 --debug
           argocd app sync configserver
