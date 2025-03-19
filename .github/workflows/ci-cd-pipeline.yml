@@ -42,6 +42,15 @@ jobs:
           # tags: 127.0.0.1:5001/group1-team3-lsc-configserver:latest
           tags: sclee1115/group1-team3-lsc-configserver:latest
 
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
+
       - name: Deploy to Kubernetes using Helm and ArgoCD
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
