@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'services/configserver/**'
+      - 'helmcharts/configserver/**'
+
+jobs:
+  build:
+    runs-on: self-hosted
+    env:
+      DOCKER_USERNAME: sclee1115
+      IMAGE_NAME: group1-team3-lsc-configserver
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: |
+          cd services/configserver
+          mvn clean package -DskipTests
+
+      - name: Get version
+        id: get_version
+        run: |
+          cd services/configserver
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Build & Push Docker image
+        run: |
+          cd services/configserver
+          docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
+          docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
+
+      - name: Update Helm values
+        run: |
+          cd helmcharts/configserver
+          sed -i '' "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add values.yaml
+          git commit -m "Update image version to ${VERSION}"
+          git push
