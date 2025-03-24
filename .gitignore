@@ -35,3 +35,6 @@ out/
 ._*
 .Spotlight-V100
 .Trashes
+
+# Secret files
+z_etc/github-runner/createSecret.sh

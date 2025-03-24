@@ -1,0 +1,50 @@
+FROM --platform=$TARGETPLATFORM ubuntu:20.04
+
+# 환경 변수 설정
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 시스템 업데이트 및 필수 패키지 설치
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    && rm -rf /var/lib/apt/lists/*
+
+# 필요한 저장소 추가
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+
+# 애플리케이션 의존성 설치
+RUN apt-get update && apt-get install -y \
+    openjdk-21-jdk \
+    maven \
+    docker-ce-cli \
+    && rm -rf /var/lib/apt/lists/*
+
+# nodejs 설치
+RUN apt-get update && apt-get install -y nodejs
+
+# npm 설치
+RUN curl -L https://www.npmjs.com/install.sh | sh
+
+# kubectl 설치
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" \
+    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
+    && rm kubectl
+
+# Helm 설치
+RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+# GitHub Actions Runner 설정
+WORKDIR /actions-runner
+RUN curl -o actions-runner-linux-x64-2.285.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.285.0/actions-runner-linux-x64-2.285.0.tar.gz \
+    && tar xzf ./actions-runner-linux-x64-2.285.0.tar.gz \
+    && rm actions-runner-linux-x64-2.285.0.tar.gz
+
+# Entrypoint 스크립트 복사 및 실행 권한 설정
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
