@@ -6,7 +6,7 @@ on:
     paths:
       - 'services/configserver/**'
       - 'helmcharts/configserver/**'
-#
+# add a new job named build
 jobs:
   build:
     runs-on: self-hosted
