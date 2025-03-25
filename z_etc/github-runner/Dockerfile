@@ -52,7 +52,10 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 # Helm 설치
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
-# ...existing code...
+# ArgoCD CLI 설치
+RUN curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-$(dpkg --print-architecture) \
+    && install -m 555 argocd-linux-amd64 /usr/local/bin/argocd \
+    && rm argocd-linux-amd64
 
 # GitHub Actions Runner 설정
 WORKDIR /actions-runner

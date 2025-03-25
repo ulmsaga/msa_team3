@@ -20,7 +20,7 @@ spec:
         effect: "NoSchedule"
       containers:
       - name: github-runner
-        image: sclee1115/github-runner-custom:v0.0.6
+        image: sclee1115/github-runner-custom:v0.0.8
         resources:
           requests:
             cpu: 100m

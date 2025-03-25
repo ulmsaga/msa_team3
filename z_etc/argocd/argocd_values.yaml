@@ -1,0 +1,19 @@
+# namespace: group1-team3
+
+server:
+  service:
+    type: NodePort
+    nodePortHttp: 30309  # HTTP 포트 (선택 사항)
+    nodePortHttps: 30409  # HTTPS 포트 (선택 사항)
+
+dex:
+  enabled: false  # Dex를 비활성화 (필요한 경우)
+
+grpc:
+  service:
+    type: NodePort
+
+controller:
+  service:
+    type: NodePort
+
