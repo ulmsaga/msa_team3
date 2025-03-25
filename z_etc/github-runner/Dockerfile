@@ -4,6 +4,14 @@ FROM --platform=$TARGETPLATFORM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 시스템 업데이트 및 필수 패키지 설치
+# RUN apt-get update && apt-get install -y \
+#     curl \
+#     ca-certificates \
+#     gnupg \
+#     lsb-release \
+#     sudo \
+#     jq \
+#     && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
@@ -11,6 +19,9 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     sudo \
     jq \
+    qemu-user \
+    qemu-user-static \
+    binfmt-support \
     && rm -rf /var/lib/apt/lists/*
 
 # 아키텍처 감지 및 환경 변수 설정
