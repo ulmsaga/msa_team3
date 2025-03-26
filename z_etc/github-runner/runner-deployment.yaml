@@ -25,13 +25,13 @@ spec:
         image: sclee1115/github-runner-custom:v0.0.10
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
-            ephemeral-storage: 512Mi
+            memory: "2Gi"
+            cpu: "1000m"
+            ephemeral-storage: "2Gi"
           limits:
-            cpu: 200m
-            memory: 256Mi
-            ephemeral-storage: 1Gi
+            memory: "4Gi"
+            cpu: "2000m"
+            ephemeral-storage: "2Gi"
         env:
         - name: RUNNER_NAME
           valueFrom:
@@ -44,23 +44,19 @@ spec:
             secretKeyRef:
               name: github-runner-secret
               key: RUNNER_TOKEN
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-            ephemeral-storage: "1Gi"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-            ephemeral-storage: "2Gi"
         volumeMounts:
         - name: workdir
           mountPath: /_work
         - name: docker-sock
           mountPath: /var/run/docker.sock
+        - name: maven-cache
+          mountPath: /home/github-runner/.m2
       volumes:
       - name: workdir
         emptyDir: {}
       - name: docker-sock
         hostPath:
           path: /var/run/docker.sock
+      - name: maven-cache
+        persistentVolumeClaim:
+          claimName: maven-cache-pvc
