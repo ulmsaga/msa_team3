@@ -1,6 +1,6 @@
 server:
   port: 9200
-# 17.1
+# 17.2
 spring:
   application:
     name: "configserver"

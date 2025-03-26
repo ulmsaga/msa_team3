@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    timeout-minutes: 10
+    timeout-minutes: 3
 
     env:
       DOCKER_USERNAME: sclee1115
