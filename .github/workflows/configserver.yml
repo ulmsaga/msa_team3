@@ -135,12 +135,29 @@ jobs:
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
       # Helm 업데이트
+      # Helm 업데이트
       - name: Update Helm values
         run: |
           cd helmcharts/configserver
-          sed -i '' "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+          echo "Current directory: $(pwd)"
+          echo "Current values.yaml content:"
+          cat values.yaml
+          # Linux 환경에 맞는 sed 명령어 사용
+          sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+          echo "Updated values.yaml content:"
+          cat values.yaml
           git config --local user.email "sclee1115@gmail.com"
           git config --local user.name "ulmsaga"
           git add values.yaml
           git commit -m "Update image version to ${VERSION}"
-          git push
+          git push origin main
+
+      # - name: Update Helm values
+      #   run: |
+      #     cd helmcharts/configserver
+      #     sed -i '' "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+      #     git config --local user.email "sclee1115@gmail.com"
+      #     git config --local user.name "ulmsaga"
+      #     git add values.yaml
+      #     git commit -m "Update image version to ${VERSION}"
+      #     git push
