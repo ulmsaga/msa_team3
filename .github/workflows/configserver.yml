@@ -92,6 +92,7 @@ jobs:
         id: get_version
         run: |
           cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
       # - name: Build & Push Docker image
@@ -101,21 +102,13 @@ jobs:
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
       # Docker Buildx 빌드
-      # - name: Build & Push Docker image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: ./services/configserver
-      #     push: true
-      #     platforms: linux/amd64,linux/arm64
-      #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-
-      - name: Build with Maven
-        run: |
-          cd services/configserver
-          export MAVEN_OPTS="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"
-          mvn -v
-          mvn clean package -DskipTests --batch-mode
-        timeout-minutes: 10
+      - name: Build & Push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./services/configserver
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
 
       # Helm 업데이트
       - name: Update Helm values
