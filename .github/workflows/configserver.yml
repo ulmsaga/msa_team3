@@ -18,10 +18,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       # QEMU 설치
       - name: Install QEMU dependencies
         run: |
+          sudo sed -i 's|http://ports.ubuntu.com/ubuntu-ports|http://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list
           sudo apt-get update
           sudo apt-get install -y qemu-user qemu-user-static
       # Docker 권한 설정
