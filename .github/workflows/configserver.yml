@@ -16,8 +16,10 @@ jobs:
       DOCKER_HOST: unix:///var/run/docker.sock  # Docker 호스트 설정 추가
 
     steps:
+      # GitHub Checkout
       - name: Checkout
         uses: actions/checkout@v2
+
       # QEMU 설치
       - name: Install QEMU dependencies
         run: |
@@ -31,32 +33,38 @@ jobs:
           sudo dpkg --add-architecture amd64
           sudo apt-get update
           sudo apt-get install -y qemu-user qemu-user-static
+
       # Docker 권한 설정
       - name: Setup Docker permissions
         run: |
           sudo chown $USER:docker /var/run/docker.sock
           sudo chmod 666 /var/run/docker.sock
+
       # Docker 데몬 실행
       - name: Check Docker daemon
         run: |
           docker info
           docker version
+
       # QEMU 설정
       - name: Check Docker daemon
         run: |
           sudo systemctl status docker || true
           sudo systemctl start docker || true
           docker info
+
       # QEMU 설정
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
           platforms: linux/amd64,linux/arm64
+
       # Docker Buildx 설정
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         with:
           platforms: linux/amd64,linux/arm64
+
       # JDK 21 설치
       - name: Set up JDK 21
         uses: actions/setup-java@v2
@@ -65,11 +73,21 @@ jobs:
           java-version: '21'
           architecture: 'x64'
           cache: 'maven'
+
+      # Maven 빌드 전 필요한 라이브러리 설치
+      - name: Install required libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libc6-amd64-cross
+
       # Maven 빌드
       - name: Build with Maven
         run: |
           cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+          mvn -v
           mvn clean package -DskipTests
+
       - name: Get version
         id: get_version
         run: |
@@ -90,6 +108,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
       # Helm 업데이트
       - name: Update Helm values
         run: |
