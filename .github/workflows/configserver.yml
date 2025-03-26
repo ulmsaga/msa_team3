@@ -134,13 +134,27 @@ jobs:
       #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
-      # Git 설정 및 설치
+            # Git 설정 및 설치
       - name: Setup Git
         run: |
-          # Git 설치
+          # 저장소 정리 및 업데이트
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get clean
           sudo apt-get update
+          
+          # 필수 의존성 패키지 설치
+          sudo apt-get install -y --no-install-recommends \
+            libc6:amd64 \
+            libcurl3-gnutls:amd64 \
+            libexpat1:amd64 \
+            libpcre2-8-0:amd64 \
+            zlib1g:amd64 \
+            perl:amd64 \
+            liberror-perl
+          
+          # Git 설치
           sudo apt-get install -y git
-
+          
           # Git 구성
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --global user.email "sclee1115@gmail.com"
