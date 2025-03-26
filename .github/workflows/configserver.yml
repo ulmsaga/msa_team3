@@ -137,13 +137,17 @@ jobs:
       # Git 설치 및 구성
       - name: Setup Git
         run: |
-          # 기존 Git 구성 확인
-          which git || echo "Git not found"
+          # Git 설치
+          sudo apt-get update
+          sudo apt-get install -y git-core
           
-          # Git이 이미 설치되어 있다면 바로 구성
+          # Git 구성
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --global user.email "sclee1115@gmail.com"
           git config --global user.name "ulmsaga"
+          
+          # Git 설치 확인
+          git --version
 
       # Helm 업데이트 (Git 의존성 문제 해결)
       - name: Update Helm values
