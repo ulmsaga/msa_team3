@@ -25,13 +25,11 @@ spec:
         image: sclee1115/github-runner-custom:v0.0.10
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "500m"
-            ephemeral-storage: "1Gi"
+            memory: "4Gi"
+            cpu: "2000m"
           limits:
-            memory: "2Gi"
-            cpu: "1000m"
-            ephemeral-storage: "2Gi"
+            memory: "8Gi"
+            cpu: "4000m"
         env:
         - name: RUNNER_NAME
           valueFrom:

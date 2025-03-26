@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    timeout-minutes: 3
+    timeout-minutes: 5
 
     env:
       DOCKER_USERNAME: sclee1115
@@ -87,14 +87,13 @@ jobs:
         run: |
           cd services/configserver
           export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
-          # Maven 최적화 설정 추가
-          export MAVEN_OPTS="-Xmx4g -Xms1g"
+          # Maven 메모리 설정 최적화
+          export MAVEN_OPTS="-Xmx2g -Xms1g"
           mvn -v
           mvn clean package -DskipTests \
-            -T 2C \
             --batch-mode \
             -Dmaven.wagon.http.pool=false \
-            -Dmaven.wagon.http.retryHandler.count=3
+            -Dmaven.test.skip=true
 
       # - name: Build with Maven
       #   run: |
