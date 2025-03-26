@@ -19,11 +19,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # QEMU 설치
-      - name: Install QEMU dependencies
+      # QEMU 및 필수 패키지 설치
+      - name: Install dependencies
         run: |
+          sudo dpkg --add-architecture amd64
           sudo apt-get update
-          sudo apt-get install -y qemu-user qemu-user-static
+          sudo apt-get install -y \
+            qemu-user \
+            qemu-user-static \
+            binfmt-support \
+            libc6:amd64 \
+            multiarch-support
+
+      # QEMU 설정
+      - name: Configure QEMU
+        run: |
+          sudo update-binfmts --enable
+          sudo ln -s /usr/x86_64-linux-gnu/lib64 /lib64 || true
 
       # Docker 권한 설정
       - name: Setup Docker permissions
