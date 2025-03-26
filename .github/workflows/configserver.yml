@@ -126,7 +126,7 @@ jobs:
           context: ./services/configserver
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:v${{ env.VERSION }}
 
       # - name: Build & Push Docker image
       #   run: |
@@ -134,37 +134,36 @@ jobs:
       #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
-      # Git 설치
-      - name: Install Git
+      # Git 설치 및 구성
+      - name: Setup Git
         run: |
-          sudo dpkg --add-architecture amd64
-          sudo apt-get update
-          sudo apt-get install -y libc6:amd64
-          sudo apt-get install -y libcurl3-gnutls:amd64
-          sudo apt-get install -y libexpat1:amd64
-          sudo apt-get install -y libpcre2-8-0:amd64
-          sudo apt-get install -y zlib1g:amd64
-          sudo apt-get install -y perl:amd64
-          sudo apt-get install -y liberror-perl
-          sudo apt-get install -y git
-
-      # Helm 업데이트
-      - name: Update Helm values
-        run: |
-          cd helmcharts/configserver
-          echo "Current directory: $(pwd)"
-          echo "Current values.yaml content:"
-          cat values.yaml
-          # Linux 환경에 맞는 sed 명령어 사용
-          sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
-          echo "Updated values.yaml content:"
-          cat values.yaml
-          # Git 설정 및 커밋
+          # 기존 Git 구성 확인
+          which git || echo "Git not found"
+          
+          # Git이 이미 설치되어 있다면 바로 구성
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --global user.email "sclee1115@gmail.com"
           git config --global user.name "ulmsaga"
+
+      # Helm 업데이트 (Git 의존성 문제 해결)
+      - name: Update Helm values
+        run: |
+          cd helmcharts/configserver
+          # 현재 상태 확인
+          echo "Current directory: $(pwd)"
+          echo "Current values.yaml content:"
+          cat values.yaml
+          
+          # values.yaml 업데이트
+          sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+          
+          # 변경사항 확인
+          echo "Updated values.yaml content:"
+          cat values.yaml
+          
+          # 변경사항 커밋 및 푸시
           git add values.yaml
-          git commit -m "Update image version to ${VERSION}"
+          git commit -m "chore: update configserver image to ${VERSION}"
           git push origin main
 
       # - name: Update Helm values
