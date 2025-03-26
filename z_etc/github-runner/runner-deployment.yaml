@@ -18,6 +18,8 @@ spec:
       - key: "node.kubernetes.io/disk-pressure"
         operator: "Exists"
         effect: "NoSchedule"
+      securityContext:
+        fsGroup: 999  # docker 그룹 ID
       containers:
       - name: github-runner
         image: sclee1115/github-runner-custom:v0.0.10

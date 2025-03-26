@@ -19,6 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Docker 권한 설정
+      - name: Setup Docker permissions
+        run: |
+          sudo chown $USER:docker /var/run/docker.sock
+          sudo chmod 666 /var/run/docker.sock
+
+      - name: Check Docker daemon
+        run: |
+          docker info
+          docker version
+
       - name: Check Docker daemon
         run: |
           sudo systemctl status docker || true
