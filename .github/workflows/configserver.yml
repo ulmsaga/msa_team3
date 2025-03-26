@@ -19,41 +19,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # QEMU 및 필수 패키지 설치
-      - name: Install dependencies
+      # QEMU 설치
+      - name: Install QEMU dependencies
         run: |
-          sudo dpkg --add-architecture amd64
           sudo apt-get update
-          sudo apt-get install -y \
-            qemu-user \
-            qemu-user-static \
-            binfmt-support \
-            libc6:amd64 \
-            multiarch-support
-
-      # QEMU 설정
-      - name: Configure QEMU
-        run: |
-          sudo update-binfmts --enable
-          sudo ln -s /usr/x86_64-linux-gnu/lib64 /lib64 || true
-
+          sudo apt-get install -y qemu-user qemu-user-static
       # Docker 권한 설정
       - name: Setup Docker permissions
         run: |
           sudo chown $USER:docker /var/run/docker.sock
           sudo chmod 666 /var/run/docker.sock
-
       - name: Check Docker daemon
         run: |
           docker info
           docker version
-
       - name: Check Docker daemon
         run: |
           sudo systemctl status docker || true
           sudo systemctl start docker || true
           docker info
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -72,10 +56,12 @@ jobs:
           architecture: 'x64'
           cache: 'maven'
 
+      #
       - name: Build with Maven
         run: |
           cd services/configserver
-          mvn clean package -DskipTests
+          mvn -v
+          mvn clean package -DskipTests --debug
 
       - name: Get version
         id: get_version
