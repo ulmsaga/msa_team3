@@ -137,10 +137,17 @@ jobs:
       # Git 설치
       - name: Install Git
         run: |
+          sudo dpkg --add-architecture amd64
           sudo apt-get update
+          sudo apt-get install -y libc6:amd64
+          sudo apt-get install -y libcurl3-gnutls:amd64
+          sudo apt-get install -y libexpat1:amd64
+          sudo apt-get install -y libpcre2-8-0:amd64
+          sudo apt-get install -y zlib1g:amd64
+          sudo apt-get install -y perl:amd64
+          sudo apt-get install -y liberror-perl
           sudo apt-get install -y git
 
-      # Helm 업데이트
       # Helm 업데이트
       - name: Update Helm values
         run: |
