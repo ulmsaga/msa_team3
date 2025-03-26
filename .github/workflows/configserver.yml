@@ -135,7 +135,7 @@ jobs:
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
       # Git 설정 및 설치
-      - name: Setup Git
+            - name: Setup Git
         run: |
           # 시스템 정보 확인
           echo "Architecture: $(uname -m)"
@@ -144,11 +144,11 @@ jobs:
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           
-          # sources.list 재구성 (표준 Ubuntu 저장소 사용)
+          # sources.list 재구성 (ARM64용 Ubuntu 저장소 사용)
           sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
-          deb http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
-          deb http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
-          deb http://archive.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
           EOF
           
           # 패키지 업데이트 및 Git 설치
