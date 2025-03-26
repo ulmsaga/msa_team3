@@ -21,7 +21,14 @@ jobs:
       # QEMU 설치
       - name: Install QEMU dependencies
         run: |
-          sudo sed -i 's|http://ports.ubuntu.com/ubuntu-ports|http://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list
+          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+          sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+          deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+          EOF
+          sudo dpkg --add-architecture amd64
           sudo apt-get update
           sudo apt-get install -y qemu-user qemu-user-static
       # Docker 권한 설정
