@@ -18,6 +18,7 @@ jobs:
       DOCKER_HOST: unix:///var/run/docker.sock  # Docker 호스트 설정 추가
 
     steps:
+      # GitHub Checkout
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -83,17 +84,17 @@ jobs:
 
       # Maven 빌드
       - name: Build with Maven
-      run: |
-        cd services/configserver
-        export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
-        # Maven 최적화 설정 추가
-        export MAVEN_OPTS="-Xmx4g -Xms1g"
-        mvn -v
-        mvn clean package -DskipTests \
-          -T 2C \
-          --batch-mode \
-          -Dmaven.wagon.http.pool=false \
-          -Dmaven.wagon.http.retryHandler.count=3
+        run: |
+          cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+          # Maven 최적화 설정 추가
+          export MAVEN_OPTS="-Xmx4g -Xms1g"
+          mvn -v
+          mvn clean package -DskipTests \
+            -T 2C \
+            --batch-mode \
+            -Dmaven.wagon.http.pool=false \
+            -Dmaven.wagon.http.retryHandler.count=3
 
       # - name: Build with Maven
       #   run: |
