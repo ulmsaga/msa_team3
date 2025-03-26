@@ -135,7 +135,7 @@ jobs:
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
       # Git 설정 및 설치
-            - name: Setup Git
+      - name: Setup Git
         run: |
           # 시스템 정보 확인
           echo "Architecture: $(uname -m)"
