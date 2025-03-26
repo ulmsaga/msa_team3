@@ -19,6 +19,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # QEMU 설치
+      - name: Install QEMU dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user qemu-user-static
+
       # Docker 권한 설정
       - name: Setup Docker permissions
         run: |
@@ -26,18 +32,12 @@ jobs:
           sudo chmod 666 /var/run/docker.sock
 
       - name: Check Docker daemon
-        run: |
-          docker info
-          docker version
-
-      - name: Check Docker daemon
-        run: |
-          sudo systemctl status docker || true
-          sudo systemctl start docker || true
-          docker info
+        run: docker info
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -49,7 +49,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: 'x64'
+          architecture: ${{ runner.arch }}
           cache: 'maven'
 
       - name: Build with Maven
