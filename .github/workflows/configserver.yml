@@ -134,10 +134,14 @@ jobs:
       #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
-      # Git 설정 (checkout 액션 사용)
-      - name: Setup Git configuration
+      # Git 설정 및 설치
+      - name: Setup Git
         run: |
-          # Git 구성만 진행 (설치 필요 없음)
+          # Git 설치
+          sudo apt-get update
+          sudo apt-get install -y git
+
+          # Git 구성
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --global user.email "sclee1115@gmail.com"
           git config --global user.name "ulmsaga"
@@ -147,6 +151,20 @@ jobs:
           
           # Git 상태 확인
           git status
+
+      # # Git 설정 (checkout 액션 사용)
+      # - name: Setup Git configuration
+      #   run: |
+      #     # Git 구성만 진행 (설치 필요 없음)
+      #     git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      #     git config --global user.email "sclee1115@gmail.com"
+      #     git config --global user.name "ulmsaga"
+          
+      #     # Git 버전 확인
+      #     git --version
+          
+      #     # Git 상태 확인
+      #     git status
 
       # Helm 업데이트 (Git 의존성 문제 해결)
       - name: Update Helm values
