@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    timeout-minutes: 10
+
     env:
       DOCKER_USERNAME: sclee1115
       IMAGE_NAME: group1-team3-lsc-configserver
@@ -82,12 +84,27 @@ jobs:
 
       # Maven 빌드
       - name: Build with Maven
-        run: |
-          cd services/configserver
-          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
-          mvn -v
-          mvn clean package -DskipTests
+      run: |
+        cd services/configserver
+        export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+        # Maven 최적화 설정 추가
+        export MAVEN_OPTS="-Xmx4g -Xms1g"
+        mvn -v
+        mvn clean package -DskipTests \
+          -T 2C \
+          --batch-mode \
+          -Dmaven.wagon.http.pool=false \
+          -Dmaven.wagon.http.retryHandler.count=3
 
+      # - name: Build with Maven
+      #   run: |
+      #     cd services/configserver
+      #     export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+      #     mvn -v
+      #     mvn clean package -DskipTests
+
+
+      # 버전 정보 가져오기
       - name: Get version
         id: get_version
         run: |
@@ -95,11 +112,6 @@ jobs:
           export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
-      # - name: Build & Push Docker image
-      #   run: |
-      #     cd services/configserver
-      #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
-      #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
       # Docker Buildx 빌드
       - name: Build & Push Docker image
@@ -109,6 +121,12 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
+      # - name: Build & Push Docker image
+      #   run: |
+      #     cd services/configserver
+      #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
+      #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
       # Helm 업데이트
       - name: Update Helm values
