@@ -32,7 +32,15 @@ jobs:
           sudo chmod 666 /var/run/docker.sock
 
       - name: Check Docker daemon
-        run: docker info
+        run: |
+          docker info
+          docker version
+
+      - name: Check Docker daemon
+        run: |
+          sudo systemctl status docker || true
+          sudo systemctl start docker || true
+          docker info
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -49,7 +57,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          architecture: ${{ runner.arch }}
+          architecture: 'x64'
           cache: 'maven'
 
       - name: Build with Maven
