@@ -134,6 +134,12 @@ jobs:
       #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
+      # Git 설치
+      - name: Install Git
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git
+
       # Helm 업데이트
       # Helm 업데이트
       - name: Update Helm values
@@ -146,8 +152,10 @@ jobs:
           sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
           echo "Updated values.yaml content:"
           cat values.yaml
-          git config --local user.email "sclee1115@gmail.com"
-          git config --local user.name "ulmsaga"
+          # Git 설정 및 커밋
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global user.email "sclee1115@gmail.com"
+          git config --global user.name "ulmsaga"
           git add values.yaml
           git commit -m "Update image version to ${VERSION}"
           git push origin main
