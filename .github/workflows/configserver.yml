@@ -13,10 +13,17 @@ jobs:
     env:
       DOCKER_USERNAME: sclee1115
       IMAGE_NAME: group1-team3-lsc-configserver
+      DOCKER_HOST: unix:///var/run/docker.sock  # Docker 호스트 설정 추가
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Check Docker daemon
+        run: |
+          sudo systemctl status docker || true
+          sudo systemctl start docker || true
+          docker info
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2

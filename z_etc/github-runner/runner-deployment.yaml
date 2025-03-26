@@ -20,7 +20,7 @@ spec:
         effect: "NoSchedule"
       containers:
       - name: github-runner
-        image: sclee1115/github-runner-custom:v0.0.9
+        image: sclee1115/github-runner-custom:v0.0.10
         resources:
           requests:
             cpu: 100m
@@ -54,6 +54,11 @@ spec:
         volumeMounts:
         - name: workdir
           mountPath: /_work
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
       volumes:
       - name: workdir
         emptyDir: {}
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock

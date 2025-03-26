@@ -39,6 +39,10 @@ RUN useradd -m github-runner \
     && usermod -aG sudo github-runner \
     && echo "github-runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+# Docker 소켓 마운트를 위한 그룹 설정
+RUN groupadd -g 999 docker && \
+    usermod -aG docker github-runner
+
 # 필요한 저장소 추가
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
