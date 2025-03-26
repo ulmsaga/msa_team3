@@ -137,22 +137,26 @@ jobs:
             # Git 설정 및 설치
       - name: Setup Git
         run: |
-          # 시스템 업데이트 및 pkg-config 설치
-          sudo apt-get update
-          sudo apt-get install -y pkg-config
-          
-          # sources.list 백업 및 수정
+          # 기존 sources.list 백업
           sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
-          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse" | sudo tee /etc/apt/sources.list
-          echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
           
-          # 패키지 캐시 업데이트
-          sudo dpkg --add-architecture amd64
+          # sources.list 초기화 및 재구성
+          sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+          deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+          EOF
+          
+          # 패키지 시스템 초기화
+          sudo dpkg --clear-avail
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+          
+          # 패키지 업데이트 및 의존성 해결
           sudo apt-get update
           sudo apt-get install -y --fix-broken
-          
-          # Git 및 의존성 패키지 설치
-          sudo apt-get install -y git:amd64
+          sudo apt-get install -y git
           
           # Git 구성
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
