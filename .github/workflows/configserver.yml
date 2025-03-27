@@ -34,22 +34,13 @@ jobs:
           echo "Checking ArgoCD server status..."
           kubectl get svc argocd-server -n group1-team3
           
-          # ArgoCD 로그인 및 동기화
-          # 1. port-forward 백그라운드로 실행
-          kubectl port-forward svc/argocd-server -n group1-team3 8080:443 &
-          sleep 5  # port-forward가 준비될 때까지 대기
-          
-          # 2. ArgoCD 로그인
-          argocd login argocd-server.group1-team3.svc \
+          # ArgoCD 로그인 (NodePort 사용)
+          echo "Logging into ArgoCD..."
+          argocd login localhost:30309 \
             --username admin \
             --password 'akfxlwm40__-' \
-            --insecure \
-            --port-forward \
-            --port-forward-namespace group1-team3
+            --insecure
           
-          # 3. 동기화 실행
+          # 동기화 상태 확인
           echo "Syncing ArgoCD application..."
           argocd app sync configserver --force
-          
-          # 4. port-forward 프로세스 종료
-          kill %1
