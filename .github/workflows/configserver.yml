@@ -249,7 +249,7 @@ jobs:
           # ArgoCD CLI가 이미 설치되어 있으므로 설치 과정 제거
           
           # ArgoCD 로그인
-          argocd login --port-forward --port-forward-namespace argocd \
+          argocd login --port-forward --port-forward-namespace group1-team3 \
             --username admin \
             --password 'akfxlwm40__-'
           
