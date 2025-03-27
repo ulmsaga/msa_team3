@@ -246,10 +246,11 @@ jobs:
       # Helm 업데이트 후 ArgoCD 동기화 상태 확인
       - name: Check ArgoCD Sync Status
         run: |
-          # ArgoCD CLI가 이미 설치되어 있으므로 설치 과정 제거
+          # RBAC 설정 적용
+          kubectl apply -f k8s/rbac/group1-team3-role.yaml
           
           # ArgoCD 로그인
-          argocd login --port-forward --port-forward-namespace group1-team3 \
+          argocd login --port-forward --port-forward-namespace argocd \
             --username admin \
             --password 'akfxlwm40__-'
           
