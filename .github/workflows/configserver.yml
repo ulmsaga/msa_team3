@@ -227,7 +227,7 @@ jobs:
           git config --global user.name "ulmsaga"
           
           # HTTPS 인증을 위한 토큰 설정
-          git remote set-url origin https://${GITHUB_TOKEN}@github.com/ulmsaga/msa_team3.git
+          git remote set-url origin https://${GH_FOR_HELM_IN_WORKFLOW}@github.com/ulmsaga/msa_team3.git
           
           # values.yaml 업데이트
           sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
