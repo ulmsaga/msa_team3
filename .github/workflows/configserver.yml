@@ -224,24 +224,31 @@ jobs:
         run: |
           cd helmcharts/configserver
           
-          # Git 설정
-          git config --global user.email "sclee1115@gmail.com"
-          git config --global user.name "ulmsaga"
+          # 현재 values.yaml의 태그 값 확인
+          CURRENT_TAG=$(grep "tag:" values.yaml | cut -d'"' -f2)
           
-          # Personal access token을 사용한 URL 설정
-          git remote set-url origin "https://ulmsaga:${GH_TOKEN}@github.com/ulmsaga/msa_team3.git"
+          # 태그가 다른 경우에만 업데이트
+          if [ "$CURRENT_TAG" != "${VERSION}" ]; then
+            # Git 설정
+            git config --global user.email "sclee1115@gmail.com"
+            git config --global user.name "ulmsaga"
+            
+            # values.yaml 업데이트
+            sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+            
+            # 변경사항 확인
+            echo "Updating values.yaml from ${CURRENT_TAG} to ${VERSION}"
+            
+            # 커밋 및 푸시
+            git add values.yaml
+            git commit -m "chore: update configserver image to ${VERSION}"
+            git push origin main
+          else
+            echo "Version ${VERSION} already set in values.yaml, skipping update"
+          fi
           
-          # values.yaml 업데이트 및 푸시
-          sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
-          
-          # 변경사항 확인
-          echo "Updated values.yaml content:"
-          cat values.yaml
-          
-          # 커밋 및 푸시
-          git add values.yaml
-          git commit -m "chore: update configserver image to ${VERSION}"
-          git push origin main
+          # ArgoCD 동기화 트리거
+          argocd app sync configserver --force
 
       # Helm 업데이트 후 ArgoCD 동기화 상태 확인
       - name: Check ArgoCD Sync Status
