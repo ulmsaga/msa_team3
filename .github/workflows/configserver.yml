@@ -30,13 +30,17 @@ jobs:
           
           # ...existing code...
 
+          # 호스트 IP 확인
+          HOST_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
+          echo "Host IP: ${HOST_IP}"
+          
           # ArgoCD 서버 상태 확인
           echo "Checking ArgoCD server status..."
           kubectl get svc argocd-server -n group1-team3
           
-          # ArgoCD 로그인 (NodePort 사용)
+          # ArgoCD 로그인 (호스트 IP 사용)
           echo "Logging into ArgoCD..."
-          argocd login localhost:30309 \
+          argocd login ${HOST_IP}:30309 \
             --username admin \
             --password 'akfxlwm40__-' \
             --insecure
