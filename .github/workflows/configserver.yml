@@ -247,17 +247,21 @@ jobs:
             echo "Version ${VERSION} already set in values.yaml, skipping update"
           fi
           
-          # -----------------------------------------------------------------------------------
-          # HelmChart 변경 사항이 없어도, services/configserver에서 이미지 빌드가 진행되었으므로 로그인 필요
-          # ArgoCD 로그인
-          argocd login localhost:30309 \
-              --username admin \
-              --password 'akfxlwm40__-' \
-              --insecure
-
+          # ArgoCD 서버 상태 확인
+          echo "Checking ArgoCD server status..."
+          kubectl get svc argocd-server -n group1-team3
+          
+          # ArgoCD 로그인 (서비스 이름 사용)
+          argocd login argocd-server.group1-team3.svc \
+            --username admin \
+            --password 'akfxlwm40__-' \
+            --insecure \
+            --port-forward \
+            --port-forward-namespace group1-team3
+          
           # ArgoCD 동기화 트리거
           argocd app sync configserver --force
-          # -----------------------------------------------------------------------------------
+
       # Helm 업데이트 후 ArgoCD 동기화 상태 확인
       - name: Check ArgoCD Sync Status
         run: |
