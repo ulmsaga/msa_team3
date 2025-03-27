@@ -1,6 +1,6 @@
 image:
   repository: sclee1115/group1-team3-lsc-configserver
-  tag: "0.0.3.1"
+  tag: "0.0.3.2"
   pullPolicy: Always
 
 service:
