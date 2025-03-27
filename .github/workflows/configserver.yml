@@ -220,26 +220,15 @@ jobs:
       # Helm 업데이트
       - name: Update Helm values
         env:
-          # GitHub 토큰 사용 GH_FOR_HELM_IN_WORKFLOW
-          GITHUB_TOKEN: ${{ secrets.GH_FOR_HELM_IN_WORKFLOW }}
+          GITHUB_TOKEN: ${{ secrets.GH_FOR_HELM_IN_WORKFLOW }}  # 기존 secret 이름 사용
         run: |
           cd helmcharts/configserver
-
-          # Git 설정
           git config --global user.email "sclee1115@gmail.com"
           git config --global user.name "ulmsaga"
+          git remote set-url origin "https://${GITHUB_TOKEN}@github.com/ulmsaga/msa_team3.git"  # 수정된 URL 형식
           
-          # Personal Access Token을 사용한 인증 설정
-          git remote set-url origin "https://ulmsaga:${GITHUB_TOKEN}@github.com/ulmsaga/msa_team3.git"
-          
-          # values.yaml 업데이트
+          # values.yaml 업데이트 및 푸시
           sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
-          
-          # 변경사항 확인
-          echo "Updated values.yaml content:"
-          cat values.yaml
-          
-          # 변경사항 커밋 및 푸시
           git add values.yaml
           git commit -m "chore: update configserver image to ${VERSION}"
           git push origin main
