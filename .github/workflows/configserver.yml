@@ -28,28 +28,41 @@ jobs:
         run: |
           cd helmcharts/configserver
           
-          # ...existing code...
-
-          # 호스트 IP 확인 (대체 방법)
-          HOST_IP=$(hostname -i || hostname -I || echo "127.0.0.1")
-          echo "Host IP: ${HOST_IP}"
+          # 현재 values.yaml의 태그 값 확인
+          CURRENT_TAG=$(grep "tag:" values.yaml | cut -d'"' -f2)
+          
+          # 태그가 다른 경우에만 업데이트
+          if [ "$CURRENT_TAG" != "${VERSION}" ]; then
+            git config --global user.email "sclee1115@gmail.com"
+            git config --global user.name "ulmsaga"
+            
+            sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+            echo "Updating values.yaml from ${CURRENT_TAG} to ${VERSION}"
+            
+            git add values.yaml
+            git commit -m "chore: update configserver image to ${VERSION}"
+            git push origin main
+          else
+            echo "Version ${VERSION} already set in values.yaml, skipping update"
+          fi
           
           # ArgoCD 서버 상태 확인
           echo "Checking ArgoCD server status..."
           kubectl get svc argocd-server -n group1-team3
           
-          # 서비스 IP 직접 사용
-          ARGOCD_SERVER_IP=$(kubectl get svc argocd-server -n group1-team3 -o=jsonpath='{.spec.clusterIP}')
-          echo "ArgoCD Server IP: ${ARGOCD_SERVER_IP}"
+          # ArgoCD 로그인 시도 (ClusterIP 사용)
+          echo "Attempting ArgoCD login..."
+          kubectl port-forward svc/argocd-server -n group1-team3 8080:443 &
+          sleep 5
           
-          # ArgoCD 로그인
-          echo "Logging into ArgoCD..."
-          argocd login ${ARGOCD_SERVER_IP} \
+          argocd login localhost:8080 \
             --username admin \
             --password 'akfxlwm40__-' \
-            --insecure \
-            --port 80
-          
-          # 동기화 상태 확인
+            --insecure
+            
+          # 동기화 실행
           echo "Syncing ArgoCD application..."
           argocd app sync configserver --force
+          
+          # port-forward 프로세스 종료
+          kill %1
