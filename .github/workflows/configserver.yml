@@ -36,7 +36,7 @@ jobs:
           
           # ArgoCD 로그인 및 동기화
           # 1. port-forward 백그라운드로 실행
-          kubectl port-forward svc/argocd-server -n group1-team3 8080:443 &
+          kubectl port-forward svc/argocd-server -n group1-team3 8080:30309 &
           sleep 5  # port-forward가 준비될 때까지 대기
           
           # 2. ArgoCD 로그인
