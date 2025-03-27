@@ -1,5 +1,12 @@
 name: CI/CD Pipeline
 
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'services/configserver/**'
+      - 'helmcharts/configserver/**'
+
 jobs:
   build:
     runs-on: self-hosted
