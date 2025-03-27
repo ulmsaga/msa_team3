@@ -30,20 +30,25 @@ jobs:
           
           # ...existing code...
 
-          # 호스트 IP 확인
-          HOST_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
+          # 호스트 IP 확인 (대체 방법)
+          HOST_IP=$(hostname -i || hostname -I || echo "127.0.0.1")
           echo "Host IP: ${HOST_IP}"
           
           # ArgoCD 서버 상태 확인
           echo "Checking ArgoCD server status..."
           kubectl get svc argocd-server -n group1-team3
           
-          # ArgoCD 로그인 (호스트 IP 사용)
+          # 서비스 IP 직접 사용
+          ARGOCD_SERVER_IP=$(kubectl get svc argocd-server -n group1-team3 -o=jsonpath='{.spec.clusterIP}')
+          echo "ArgoCD Server IP: ${ARGOCD_SERVER_IP}"
+          
+          # ArgoCD 로그인
           echo "Logging into ArgoCD..."
-          argocd login ${HOST_IP}:30309 \
+          argocd login ${ARGOCD_SERVER_IP} \
             --username admin \
             --password 'akfxlwm40__-' \
-            --insecure
+            --insecure \
+            --port 80
           
           # 동기화 상태 확인
           echo "Syncing ArgoCD application..."
