@@ -167,6 +167,15 @@ jobs:
           git --version
           git status
 
+          # 작업 디렉토리가 Git 저장소인지 확인
+          if [ ! -d .git ]; then
+            git init
+            git remote add origin https://github.com/ulmsaga/msa_team3.git
+          fi
+          
+          git fetch origin
+          git checkout main || git checkout -b main
+
       # # Git 설정 (checkout 액션 사용)
       # - name: Setup Git configuration
       #   run: |
