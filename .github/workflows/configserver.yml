@@ -242,3 +242,41 @@ jobs:
           git add values.yaml
           git commit -m "chore: update configserver image to ${VERSION}"
           git push origin main
+
+       # Helm 업데이트 후 ArgoCD 동기화 상태 확인
+      - name: Check ArgoCD Sync Status
+        run: |
+          # ArgoCD CLI 설치
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x argocd
+          sudo mv argocd /usr/local/bin/
+          
+          # ArgoCD 로그인 (토큰 사용)
+          argocd login --port-forward --port-forward-namespace argocd \
+            --username admin \
+            --password ${{ secrets.ARGOCD_PASSWORD }}
+          
+          # 동기화 상태 확인
+          argocd app wait configserver --timeout 300
+          
+          # 배포 상태 확인
+          kubectl get all -n group1-team3 -l app=team3-lsc-configserver-app
+
+
+      # Helm 업데이트 후
+      - name: Wait for ArgoCD Sync
+        run: |
+          # ArgoCD 애플리케이션 상태 확인
+          kubectl wait --for=condition=Ready pods -l app={{ .Values.app.name }} -n group1-team3 --timeout=300s
+          
+          # 배포 상태 출력
+          kubectl get all -n group1-team3 -l app={{ .Values.app.name }}
+
+      # filepath: /.github/workflows/configserver.yml
+      - name: Verify Deployment
+        run: |
+          # 서비스 상태 확인
+          curl -f http://localhost:30310/actuator/health || exit 1
+          
+          # 로그 확인
+          kubectl logs -l app={{ .Values.app.name }} -n group1-team3
