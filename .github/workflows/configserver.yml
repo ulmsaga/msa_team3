@@ -21,13 +21,35 @@ jobs:
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
+      # Helm 업데이트
       - name: Update Helm values
         env:
           GH_TOKEN: ${{ secrets.GH_FOR_HELM_IN_WORKFLOW }}
         run: |
           cd helmcharts/configserver
-          argocd login localhost:30309 \
+          
+          # ...existing code...
+
+          # ArgoCD 서버 상태 확인
+          echo "Checking ArgoCD server status..."
+          kubectl get svc argocd-server -n group1-team3
+          
+          # ArgoCD 로그인 및 동기화
+          # 1. port-forward 백그라운드로 실행
+          kubectl port-forward svc/argocd-server -n group1-team3 8080:443 &
+          sleep 5  # port-forward가 준비될 때까지 대기
+          
+          # 2. ArgoCD 로그인
+          argocd login argocd-server.group1-team3.svc \
             --username admin \
             --password 'akfxlwm40__-' \
-            --insecure
+            --insecure \
+            --port-forward \
+            --port-forward-namespace group1-team3
+          
+          # 3. 동기화 실행
+          echo "Syncing ArgoCD application..."
           argocd app sync configserver --force
+          
+          # 4. port-forward 프로세스 종료
+          kill %1
