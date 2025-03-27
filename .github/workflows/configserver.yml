@@ -134,66 +134,74 @@ jobs:
       #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
       #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
-      # Git 설정 및 설치
       - name: Setup Git
         run: |
           # 시스템 정보 확인
           echo "Architecture: $(uname -m)"
           
-          # 패키지 시스템 초기화
-          sudo rm -rf /var/lib/apt/lists/*
-          sudo apt-get clean
-          
-          # # sources.list 재구성 (ARM64용 Ubuntu 저장소 사용)
-          # sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
-          # deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
-          # deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
-          # deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
-          # EOF
-          
-          # # 패키지 업데이트 및 Git 설치
-          # sudo apt-get update
-          # sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
-
-          # Git이 이미 설치되어 있는지 확인
-          if ! command -v git &> /dev/null; then
-            # sources.list 설정 (ARM64용 ports.ubuntu.com 사용)
-            sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
-            deb http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
-            deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
-            deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
-            EOF
-            
-            # 패키지 업데이트 및 Git 설치
-            sudo apt-get update
-            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
-          fi
-          
-          # Git 권한 설정
-          sudo chown -R $(whoami):$(whoami) $GITHUB_WORKSPACE
-          
-          # Git 구성
+          # Git 설정
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --global user.email "sclee1115@gmail.com"
           git config --global user.name "ulmsaga"
           
-          # Git 설치 확인
-          git --version
+          # 상태 확인
+          echo "작업 디렉토리: $(pwd)"
+          echo "Git 버전: $(git --version)"
           git status
 
-          # 현재 디렉토리 확인
-          pwd
-          ls -la
+      # Git 설정 및 설치
+      # - name: Setup Git
+      #   run: |
+      #     # 시스템 정보 확인
+      #     echo "Architecture: $(uname -m)"
           
-          # GitHub 저장소 체크아웃
-          if [ ! -d .git ]; then
-            rm -rf .git
-            git init
-            git remote add origin https://github.com/ulmsaga/msa_team3.git
-            git fetch origin
-            git checkout main || git checkout -b main
-            git pull origin main
-          fi
+      #     # 패키지 시스템 초기화
+      #     sudo rm -rf /var/lib/apt/lists/*
+      #     sudo apt-get clean
+         
+      #     # # 패키지 업데이트 및 Git 설치
+      #     # sudo apt-get update
+      #     # sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+
+      #     # Git이 이미 설치되어 있는지 확인
+      #     if ! command -v git &> /dev/null; then
+      #       # sources.list 설정 (ARM64용 ports.ubuntu.com 사용)
+      #       sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+      #       deb http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
+      #       deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
+      #       deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
+      #       EOF
+            
+      #       # 패키지 업데이트 및 Git 설치
+      #       sudo apt-get update
+      #       sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+      #     fi
+          
+      #     # Git 권한 설정
+      #     sudo chown -R $(whoami):$(whoami) $GITHUB_WORKSPACE
+          
+      #     # Git 구성
+      #     git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      #     git config --global user.email "sclee1115@gmail.com"
+      #     git config --global user.name "ulmsaga"
+          
+      #     # Git 설치 확인
+      #     git --version
+      #     git status
+
+      #     # 현재 디렉토리 확인
+      #     pwd
+      #     ls -la
+          
+      #     # GitHub 저장소 체크아웃
+      #     if [ ! -d .git ]; then
+      #       rm -rf .git
+      #       git init
+      #       git remote add origin https://github.com/ulmsaga/msa_team3.git
+      #       git fetch origin
+      #       git checkout main || git checkout -b main
+      #       git pull origin main
+      #     fi
 
       # # Git 설정 (checkout 액션 사용)
       # - name: Setup Git configuration
