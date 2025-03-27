@@ -1,0 +1,279 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'services/configserver/**'
+      - 'helmcharts/configserver/**'
+#
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 5
+
+    env:
+      DOCKER_USERNAME: sclee1115
+      IMAGE_NAME: group1-team3-lsc-configserver
+      DOCKER_HOST: unix:///var/run/docker.sock  # Docker 호스트 설정 추가
+
+    steps:
+      # GitHub Checkout
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # QEMU 설치
+      - name: Install QEMU dependencies
+        run: |
+          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+          sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+          deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+          EOF
+          sudo dpkg --add-architecture amd64
+          sudo apt-get update
+          sudo apt-get install -y qemu-user qemu-user-static
+
+      # Docker 권한 설정
+      - name: Setup Docker permissions
+        run: |
+          sudo chown $USER:docker /var/run/docker.sock
+          sudo chmod 666 /var/run/docker.sock
+
+      # Docker 데몬 실행
+      - name: Check Docker daemon
+        run: |
+          docker info
+          docker version
+
+      # QEMU 설정
+      - name: Check Docker daemon
+        run: |
+          sudo systemctl status docker || true
+          sudo systemctl start docker || true
+          docker info
+
+      # QEMU 설정
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      # Docker Buildx 설정
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      # JDK 21 설치
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          architecture: 'x64'
+          cache: 'maven'
+
+      # Maven 빌드 전 필요한 라이브러리 설치
+      - name: Install required libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libc6-amd64-cross
+
+      # Maven 빌드
+      - name: Build with Maven
+        run: |
+          cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+          # Maven 메모리 설정 최적화
+          export MAVEN_OPTS="-Xmx2g -Xms1g"
+          mvn -v
+          mvn clean package -DskipTests \
+            --batch-mode \
+            -Dmaven.wagon.http.pool=false \
+            -Dmaven.test.skip=true
+
+      # - name: Build with Maven
+      #   run: |
+      #     cd services/configserver
+      #     export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+      #     mvn -v
+      #     mvn clean package -DskipTests
+
+
+      # 버전 정보 가져오기
+      - name: Get version
+        id: get_version
+        run: |
+          cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+      # Docker Hub 로그인
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}  # GitHub Secrets에 추가 필요
+
+      # Docker Buildx 빌드
+      - name: Build & Push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./services/configserver
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:v${{ env.VERSION }}
+
+      # - name: Build & Push Docker image
+      #   run: |
+      #     cd services/configserver
+      #     docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
+      #     docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
+
+      - name: Setup Git
+        run: |
+          # 시스템 정보 확인
+          echo "Architecture: $(uname -m)"
+          
+          # Git 설정
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global user.email "sclee1115@gmail.com"
+          git config --global user.name "ulmsaga"
+          
+          # 상태 확인
+          echo "작업 디렉토리: $(pwd)"
+          echo "Git 버전: $(git --version)"
+          git status
+
+      # Git 설정 및 설치
+      # - name: Setup Git
+      #   run: |
+      #     # 시스템 정보 확인
+      #     echo "Architecture: $(uname -m)"
+          
+      #     # 패키지 시스템 초기화
+      #     sudo rm -rf /var/lib/apt/lists/*
+      #     sudo apt-get clean
+         
+      #     # # 패키지 업데이트 및 Git 설치
+      #     # sudo apt-get update
+      #     # sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+
+      #     # Git이 이미 설치되어 있는지 확인
+      #     if ! command -v git &> /dev/null; then
+      #       # sources.list 설정 (ARM64용 ports.ubuntu.com 사용)
+      #       sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+      #       deb http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
+      #       deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
+      #       deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
+      #       EOF
+            
+      #       # 패키지 업데이트 및 Git 설치
+      #       sudo apt-get update
+      #       sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+      #     fi
+          
+      #     # Git 권한 설정
+      #     sudo chown -R $(whoami):$(whoami) $GITHUB_WORKSPACE
+          
+      #     # Git 구성
+      #     git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      #     git config --global user.email "sclee1115@gmail.com"
+      #     git config --global user.name "ulmsaga"
+          
+      #     # Git 설치 확인
+      #     git --version
+      #     git status
+
+      #     # 현재 디렉토리 확인
+      #     pwd
+      #     ls -la
+          
+      #     # GitHub 저장소 체크아웃
+      #     if [ ! -d .git ]; then
+      #       rm -rf .git
+      #       git init
+      #       git remote add origin https://github.com/ulmsaga/msa_team3.git
+      #       git fetch origin
+      #       git checkout main || git checkout -b main
+      #       git pull origin main
+      #     fi
+
+      # # Git 설정 (checkout 액션 사용)
+      # - name: Setup Git configuration
+      #   run: |
+      #     # Git 구성만 진행 (설치 필요 없음)
+      #     git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      #     git config --global user.email "sclee1115@gmail.com"
+      #     git config --global user.name "ulmsaga"
+          
+      #     # Git 버전 확인
+      #     git --version
+          
+      #     # Git 상태 확인
+      #     git status
+
+      # Helm 업데이트
+      - name: Update Helm values
+        env:
+          GH_TOKEN: ${{ secrets.GH_FOR_HELM_IN_WORKFLOW }}
+        run: |
+          cd helmcharts/configserver
+          
+          # 현재 values.yaml의 태그 값 확인
+          CURRENT_TAG=$(grep "tag:" values.yaml | cut -d'"' -f2)
+          
+          # 태그가 다른 경우에만 업데이트
+          if [ "$CURRENT_TAG" != "${VERSION}" ]; then
+            # Git 설정
+            git config --global user.email "sclee1115@gmail.com"
+            git config --global user.name "ulmsaga"
+            
+            # values.yaml 업데이트
+            sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
+            
+            # 변경사항 확인
+            echo "Updating values.yaml from ${CURRENT_TAG} to ${VERSION}"
+            
+            # 커밋 및 푸시
+            git add values.yaml
+            git commit -m "chore: update configserver image to ${VERSION}"
+            git push origin main
+          else
+            echo "Version ${VERSION} already set in values.yaml, skipping update"
+          fi
+          
+          # ArgoCD 서버 상태 확인
+          echo "Checking ArgoCD server status..."
+          kubectl get svc argocd-server -n group1-team3
+          
+          # ArgoCD 로그인
+          argocd login localhost:30309 \
+              --username admin \
+              --password 'akfxlwm40__-' \
+              --insecure
+          
+          # ArgoCD 동기화 트리거
+          argocd app sync configserver --force
+
+      # Helm 업데이트 후 ArgoCD 동기화 상태 확인
+      - name: Check ArgoCD Sync Status
+        run: |
+          # ArgoCD Application 상태 확인
+          kubectl get application configserver -n group1-team3
+          
+          # ArgoCD 로그인
+          argocd login localhost:30309 \
+            --username admin \
+            --password 'akfxlwm40__-' \
+            --insecure
+          
+          # 동기화 상태 확인
+          argocd app wait configserver --timeout 300
+          
+          # 배포 상태 확인
+          kubectl get all -n group1-team3 -l app=team3-lsc-configserver-app
