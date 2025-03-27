@@ -247,10 +247,10 @@ jobs:
       - name: Check ArgoCD Sync Status
         run: |
           # RBAC 설정 적용
-          kubectl apply -f k8s/rbac/group1-team3-role.yaml
+          kubectl apply -f k8s/rbac/configserver-rbac.yaml
           
           # ArgoCD 로그인
-          argocd login --port-forward --port-forward-namespace argocd \
+          argocd login --port-forward --port-forward-namespace group1-team3 \
             --username admin \
             --password 'akfxlwm40__-'
           
