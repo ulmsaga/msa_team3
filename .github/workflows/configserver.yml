@@ -220,7 +220,7 @@ jobs:
       # Helm 업데이트
       - name: Update Helm values
         env:
-          # GitHub 토큰 사용
+          # GitHub 토큰 사용 GH_FOR_HELM_IN_WORKFLOW
           GITHUB_TOKEN: ${{ secrets.GH_FOR_HELM_IN_WORKFLOW }}
         run: |
           cd helmcharts/configserver
