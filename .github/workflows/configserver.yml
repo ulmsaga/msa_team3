@@ -217,8 +217,11 @@ jobs:
       #     # Git 상태 확인
       #     git status
 
-      # Helm 업데이트 (Git 의존성 문제 해결)
+      # Helm 업데이트
       - name: Update Helm values
+        env:
+          # GitHub 토큰 사용
+          GITHUB_TOKEN: ${{ secrets.GH_FOR_HELM_IN_WORKFLOW }}
         run: |
           cd helmcharts/configserver
 
@@ -226,8 +229,8 @@ jobs:
           git config --global user.email "sclee1115@gmail.com"
           git config --global user.name "ulmsaga"
           
-          # HTTPS 인증을 위한 토큰 설정
-          git remote set-url origin https://${GH_FOR_HELM_IN_WORKFLOW}@github.com/ulmsaga/msa_team3.git
+          # Personal Access Token을 사용한 인증 설정
+          git remote set-url origin "https://ulmsaga:${GITHUB_TOKEN}@github.com/ulmsaga/msa_team3.git"
           
           # values.yaml 업데이트
           sed -i "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
@@ -240,13 +243,3 @@ jobs:
           git add values.yaml
           git commit -m "chore: update configserver image to ${VERSION}"
           git push origin main
-
-      # - name: Update Helm values
-      #   run: |
-      #     cd helmcharts/configserver
-      #     sed -i '' "s/tag: .*$/tag: \"${VERSION}\"/" values.yaml
-      #     git config --local user.email "sclee1115@gmail.com"
-      #     git config --local user.name "ulmsaga"
-      #     git add values.yaml
-      #     git commit -m "Update image version to ${VERSION}"
-      #     git push
