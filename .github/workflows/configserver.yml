@@ -144,16 +144,30 @@ jobs:
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           
-          # sources.list 재구성 (ARM64용 Ubuntu 저장소 사용)
-          sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
-          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
-          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
-          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
-          EOF
+          # # sources.list 재구성 (ARM64용 Ubuntu 저장소 사용)
+          # sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+          # deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
+          # deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
+          # deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
+          # EOF
           
-          # 패키지 업데이트 및 Git 설치
-          sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+          # # 패키지 업데이트 및 Git 설치
+          # sudo apt-get update
+          # sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+
+          # Git이 이미 설치되어 있는지 확인
+          if ! command -v git &> /dev/null; then
+            # sources.list 설정 (ARM64용 ports.ubuntu.com 사용)
+            sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+            deb http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
+            deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
+            deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
+            EOF
+            
+            # 패키지 업데이트 및 Git 설치
+            sudo apt-get update
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
+          fi
           
           # Git 권한 설정
           sudo chown -R $(whoami):$(whoami) $GITHUB_WORKSPACE
@@ -167,14 +181,19 @@ jobs:
           git --version
           git status
 
-          # 작업 디렉토리가 Git 저장소인지 확인
+          # 현재 디렉토리 확인
+          pwd
+          ls -la
+          
+          # GitHub 저장소 체크아웃
           if [ ! -d .git ]; then
+            rm -rf .git
             git init
             git remote add origin https://github.com/ulmsaga/msa_team3.git
+            git fetch origin
+            git checkout main || git checkout -b main
+            git pull origin main
           fi
-          
-          git fetch origin
-          git checkout main || git checkout -b main
 
       # # Git 설정 (checkout 액션 사용)
       # - name: Setup Git configuration
