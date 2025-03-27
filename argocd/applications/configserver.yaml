@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: configserver
-  namespace: argocd
+  namespace: group1-team3
 spec:
   project: default
   source:

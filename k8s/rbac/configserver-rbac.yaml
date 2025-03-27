@@ -1,26 +1,21 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
-  name: configserver-role
-  namespace: group1-team3
+  name: group1-team3-admin
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "endpoints"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps"]
-  resources: ["deployments", "replicasets"]
-  verbs: ["get", "list", "watch"]
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: configserver-rolebinding
-  namespace: group1-team3
+  name: group1-team3-admin-binding
 subjects:
 - kind: ServiceAccount
   name: default
   namespace: group1-team3
 roleRef:
-  kind: Role
-  name: configserver-role
+  kind: ClusterRole
+  name: group1-team3-admin
   apiGroup: rbac.authorization.k8s.io

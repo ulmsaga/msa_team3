@@ -246,13 +246,14 @@ jobs:
       # Helm 업데이트 후 ArgoCD 동기화 상태 확인
       - name: Check ArgoCD Sync Status
         run: |
-          # RBAC 설정 적용
-          kubectl apply -f k8s/rbac/configserver-rbac.yaml
+          # ArgoCD Application 상태 확인
+          kubectl get application configserver -n group1-team3
           
           # ArgoCD 로그인
-          argocd login --port-forward --port-forward-namespace group1-team3 \
+          argocd login localhost:30309 \
             --username admin \
-            --password 'akfxlwm40__-'
+            --password 'akfxlwm40__-' \
+            --insecure
           
           # 동기화 상태 확인
           argocd app wait configserver --timeout 300
