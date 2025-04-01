@@ -22,7 +22,7 @@ spec:
         fsGroup: 999  # docker 그룹 ID
       containers:
       - name: github-runner
-        image: sclee1115/github-runner-custom:v0.0.10
+        image: sclee1115/github-runner-custom:v0.0.11
         resources:
           requests:
             memory: "4Gi"

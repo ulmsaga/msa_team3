@@ -59,6 +59,11 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y nodejs \
     && curl -L https://www.npmjs.com/install.sh | sh
 
+# Git 설치 추가
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
 # kubectl 설치
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" \
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \

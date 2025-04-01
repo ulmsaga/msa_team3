@@ -23,18 +23,18 @@ jobs:
         uses: actions/checkout@v2
 
       # QEMU 설치
-      # - name: Install QEMU dependencies
-      #   run: |
-      #     sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
-      #     sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
-      #     deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
-      #     deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
-      #     deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
-      #     deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
-      #     EOF
-      #     sudo dpkg --add-architecture amd64
-      #     sudo apt-get update
-      #     sudo apt-get install -y qemu-user qemu-user-static
+      - name: Install QEMU dependencies
+        run: |
+          sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+          sudo tee /etc/apt/sources.list > /dev/null << 'EOF'
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
+          deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+          deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+          EOF
+          sudo dpkg --add-architecture amd64
+          sudo apt-get update
+          sudo apt-get install -y qemu-user qemu-user-static
 
       # Docker 권한 설정
       - name: Setup Docker permissions
@@ -49,17 +49,17 @@ jobs:
           docker version
 
       # QEMU 설정
-      # - name: Check Docker daemon
-      #   run: |
-      #     sudo systemctl status docker || true
-      #     sudo systemctl start docker || true
-      #     docker info
+      - name: Check Docker daemon
+        run: |
+          sudo systemctl status docker || true
+          sudo systemctl start docker || true
+          docker info
 
       # QEMU 설정
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v2
-      #   with:
-      #     platforms: linux/amd64,linux/arm64
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
 
       # Docker Buildx 설정
       - name: Set up Docker Buildx
@@ -68,52 +68,39 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       # JDK 21 설치
-      # - name: Set up JDK 21
-      #   uses: actions/setup-java@v2
-      #   with:
-      #     distribution: 'temurin'
-      #     java-version: '21'
-      #     architecture: 'x64'
-      #     cache: 'maven'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          architecture: 'x64'
+          cache: 'maven'
 
       # Maven 빌드 전 필요한 라이브러리 설치
-      # - name: Install required libraries
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y libc6-amd64-cross
+      - name: Install required libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libc6-amd64-cross
 
       # Maven 빌드
-      # - name: Build with Maven
-      #   run: |
-      #     cd services/configserver
-      #     export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
-      #     # Maven 메모리 설정 최적화
-      #     export MAVEN_OPTS="-Xmx2g -Xms1g"
-      #     mvn -v
-      #     mvn clean package -DskipTests \
-      #       --batch-mode \
-      #       -Dmaven.wagon.http.pool=false \
-      #       -Dmaven.test.skip=true
       - name: Build with Maven
         run: |
           cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
+          # Maven 메모리 설정 최적화
+          export MAVEN_OPTS="-Xmx2g -Xms1g"
+          mvn -v
           mvn clean package -DskipTests \
             --batch-mode \
             -Dmaven.wagon.http.pool=false \
             -Dmaven.test.skip=true
 
       # 버전 정보 가져오기
-      # - name: Get version
-      #   id: get_version
-      #   run: |
-      #     cd services/configserver
-      #     export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
-      #     VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-      #     echo "VERSION=${VERSION}" >> $GITHUB_ENV
       - name: Get version
         id: get_version
         run: |
           cd services/configserver
+          export QEMU_LD_PREFIX=/usr/x86_64-linux-gnu
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
