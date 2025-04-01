@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.eazybytes</groupId>
     <artifactId>configserver</artifactId>
-    <version>0.0.3.7</version>
+    <version>0.0.3.01</version>
     <name>configserver</name>
     <description>Config Server for EazyBank microservices</description>
     <url/>
